@@ -1,0 +1,243 @@
+Part 1 (Getting Started):
+Link: https://www.youtube.com/watch?v=MwZwr5Tvyxo 
+1. Make sure you have Flask downloaded (pip install flask)
+2. Make sure it's imported correctly (import flask in python)
+3. Make web app directory
+4. Open directory in text editor
+5. Make python file
+6. Write code (w/ routes and vars)
+	1. Import flask
+	2. Make app (or other var) = Flask(__name__) --> see flaskblog.py for details
+		1. Def function
+		2. Do stuff
+		3. Return display stuff 
+			1. Code can include HTML formatting for return vals
+	3. Make routes (decorators) @var.route("/[name optional]")
+		1. Can have multiple tags go to same page --> just add it under initial
+7. Go web app directory to run
+8. Set some environment variables --> more details outside
+	1. export FLASK_APP=[whatever python file you're running as default] --> MacOS + Linux
+	2. export FLASK_DEBUG=1 --> sets to active (0 is inactive)
+		1. Can reload page w/o restarting web server
+	3. flask run
+		1. Running on: http://[local IP address == localhost]:[port #]/
+			1. Copy paste into browser
+9. Run w/o setting environment variables (EXTRA)
+	1. if __name__ == '__main__'
+			var.run(debug=True)
+	2. python [python file] --> runs
+
+Part 2 (Templates):
+Link: https://www.youtube.com/watch?v=QnDWIZuWYW0
+1. Including HTML code structure in route file can get messy --> templates
+2. Create templates directory
+3. Create doc.html for structure
+	1. Basic set-up w/ writing: html + tab
+	2. Most editing done in <body>
+4. Import render_template func into route file
+5. Return render_template('[file.html]')
+
+NOTE: up until here is all that is needed for STATIC (non-changing) HTML pages;
+	  most modern web apps have POSTs and requests and changing vars
+	  POST request - method has a web server accept the data enclosed in the body of the request; commonly in uploaded files, forms, etc...
+	  GET request - method retrieves data from web; ex as queries from URL
+
+Posts:
+1. Set posts= (2nd var) to POSTs var in order to loop through in template
+2. Write loop (and other code) in HTML template w/ code blocks
+	1. {% ... code block ... %}
+		1. For loop: {% for x in xs %}
+			1. <formatting tags> {{any code block stuff}} </formatting tags>
+			2. Repeat 2 for whatever is needed
+			3. {% endfor %}
+		2. if/else: {% if something_true %}
+			1. <tag> {{...}} </tag>
+			2. {% else %}
+			3. <tag> {{...}} </tag>
+			4. {% endif %}
+
+NOTE: setting vars in render_template(...) --> SAME as in templates!!!
+NOTE: up until this point this is a lot of repeated code! 
+	SOLUTION: template inheritance 
+
+Template Inheritance:
+1. Create a "general layout HTML setup"
+2. Copy all code that is repeated
+3. Delete the unique parts
+4. (FOR PARENT HTML) Replace unique parts with a "block" --> will be overridden by child templates
+	1. {$ block [block name] %} {% endblock %} --> content will be what's overridden
+5. (FOR CHILD HTML) Delete the stuff that'll be set w/ parent HTML
+6. Reformat such that child page inherits parent content
+	1. @top: {% extends "[parent name].html" %}
+	2. ENCLOSED BLOCK: {% block [block name] %}
+			...
+			...
+			...
+			{% endblock [block name] %} --> add block name for specificity
+
+CONCLUSION: templates, inheritance, variables
+
+Github code: https://github.com/CoreyMSchafer/code_snippets/tree/master/Python/Flask_Blog
+
+***Adding bootstrap navigation bar in layout.html under <body>***
+***Replacing content block (in code) w/ main code (main.html)***
+--> In main.html there are some styles that aren't bootstrap specific and that'll be written into CSS files (they're static)
+	--> place static files (CSS, JS) inside a static directory (create)
+
+Creating/Using Static Files (CSS, JS):
+1. [file].css
+2. Custom styling!
+3. Actually implement CSS files (currently) inside layout template (or other) (URLFor) --> URLFor figures out the routes for us in the background
+	1. Import url_for into app py file
+	2. In header/body/other part that you're using it in, create another stylesheet under your previously existing ones
+		1. <link rel="stylesheet' type="text/css" href="{{ url_for('[static directory]', filename=[file name]) }}">
+	NOTE: good idea to use url_for for as many links as you can in your webpage (will replace the HTML inside navigation in part 3 after other 2 parts are created)
+
+***Replacing format of the "blog posts" w/ some additional spacing + formatting --> all available in main.css file; just needs to be added w/ correct HTML usage/formatting***
+	--> done w/ article.html in Github 
+
+Part 3 (Forms and User Input):
+--> Login, register, make posts, logout
+
+Register/Logins:
+***W/ Flask, use WT forms for validation etc...***
+1. pip install flask-wtf
+2. Create new py file for storing forms
+	--> can do in app py file but bests to keep them all organised + separate
+	1. from flask_wtf import FlaskForm
+		***forms not written directly in HTML; flask extension allows forms to be written in python and then converted to HTML to fit inside template***
+	2. Create class for form you need
+		1. class [something]Form(FlaskForm): --> inherits from FlaskForm template
+			...
+	3. Import fields that are necessary
+		--> from wtforms import StringField --> not part of flask_wtf
+	4. Set parameters for form:
+		1. Step 2
+		2. Set vars to [fieldType]('[label for HTML]') --> username = StringField('Username')
+	5. Make sure fields have requirements --> using validators
+		1. from wtforms.validators import [whatever is needing validated]
+		2. In var = [fieldtype]('[label]', validators=[...])
+			--> validators is a list of things needing validation for that input
+			--> import name @top w/ () after name
+	6. Set secret key --> avoids cookies modifying + other attacks on info
+		1. @top of app py file set secret key
+		2. app.config['SECRET_KEY'] = '' --> empty string for now; want ideally string of random chars
+			1. Command line PYTHON
+			2. import secrets
+			3. secrets.token_hex(16) --> 16 is # of bytes
+	7. Import forms.py form classes in app.py file (same directory can import directly)
+	8. Create registration app route
+		1. Create and set form instance w/ RegistrationForm() 
+		2. return render_template w/ info needed (i.e. html template, title, form, etc...)
+
+Setting Up a Form Template:
+1. General extending/block etc... {% extends "[template].html" %}
+								  {% block [name] %}
+								  	...
+								  {% endblock [name] %}
+2. HTML layout!!! --> ref to HTML <div> ... </div> layout info
+	***Possible inclusions/stuff to put in tags***
+	1. <div class="content-section"> ... </div> --> content of page
+	2. <form method="POST" action="" ... </form> --> FILL IN ""
+		1. TBD
+	3. Have: {{ form.hidden_tag() }} --> for security reasons; set later
+	4. <fieldset class="form-group"> ... </fieldset> --> realises inside will be form attributes
+	5. <legend class="[formatting]">TEXT</legend> --> Across top of form!!!
+	6. Form parts/inputs:
+		1. <div class="form-group">
+		2. {{ form.[attribute name from forms.py]....(class="form-control-label")}} --> sets name across top
+		3. {{ form.[attribute name from forms.py](class="form control form-control-lg") }} --> actual input into form fields
+		4. </div>
+	7. Buttons:
+		1. <div class="form-group">
+		2. {{ form.[button name](class="btn btn-outline-info") }} --> formats button layout look; btn == button; btn-outline-info == slightly outlines button + field in blue
+		3. </div>
+	8. Other stuff outside of <fieldset>...</fieldset>
+		1. <div class="[formatting]">
+		2. <Whatever type of text/formatting tag class="[formatting]">
+		3. Text/other stuff
+			1. HYPERLINKS TO OTHER PAGE @anchor tags
+				***anchor tags: define beginning/end of a hypertext link***
+				***href: Hyperlink REFerence --> URL link (use url_for(...))***
+				1. <a class="[formatting]" href=[something to do; link here]>
+					1. href="{{ url_for('[app func name]') }}""
+				2. Text shown
+				3. </a>
+		4. </Whatever type of text/formatting tag>
+		5. </div> (however many times needed)
+
+ISSUE: Method Not Allowed after signing up b/c POST method's action is "" (see note); currently not accepting POST requests in that route
+SOLUTION: add list of accepted methods in that particular route
+
+Accepting Methods in Particular Route: 
+***Ex: /register***
+1. @app.route(/[route], methods=['METHODS' ... 'METHODS'])
+	***Common are 'POST', 'GET'
+	--> redirects back to page w/o showing if validation happened --> b/c redirecting to "" in POST action
+2. if form.validate_on_submit(): --> use flash message for 1-time alert + redirect to diff page (in this case, home page)
+	1. from flask import flash @top of app file
+	2. flash([message], [category])
+		1. [message] --> f-string if need to have vars inputted; py 3.6+
+			1. f'text {[where vars are]} text'
+		2. [category] --> type of alert flash can give
+			1. 'type of alert' (see bootstrap API for more)
+	3. from flask import redirect
+	4. If done properly --> return redirect([url])
+		1. url --> url_for('[name of app.py func NOT path')
+	5. Actually have HTML templates SHOW flash messages
+		1. Find whatever HTML will display messages (will do in any page ergo template.html)
+		2. Open code block (with)
+		3. with messages = get_flashed_messages(with_categories=true/false) --> func that'll get flash messages; param depending on what original flash messages have
+		4. Close code block (with)
+		5. Inside with block, print messages if they exist
+			1. Loop over category + message from messages
+			2. Open div w/ class="alert alert-{{ category }}"
+			3. Show {{ message }} var inside div
+
+SO FAR: forms are a success! Accounts have not actually been saved (need database part 4); flash messages disappear when page is reloaded
+NEXT: give feedback to user if incorrect inputs --> can fix
+***If invalid inputs --> sends back to form***
+
+Feedback for Invalid Inputs:
+1. For every form-group, it'll have a list of errors when invalid input is given --> we want to print the errors (bootstrap): add class of is-invalid to field and div underneath of invalid-feedback
+	1. Check if input has errors --> form.[field].errors
+	2. Have same code for form.[field] but add a class of is-invalid to the field
+	3. Under checking, have div w/ class of invalid-feedback
+	4. Inside print all errors
+		--> instead of just {{ error }}, use <span>...</span> 
+		--> <div> and <span> have no meaning, just for styling
+			--> <div> is a block element --> makes things on a separate line
+			--> <span> is an inline element --> can be on a line w/ other elements
+	5. If no errors, show original form-control element
+CONCLUSION: checks if an error exists in the given field --> if it does, prints the error of the field (formatted correctly) --> if not, moves on
+
+NOTE: copy-paste what you can and delete what's not needed! (i.e. register --> login templates)
+
+Login:
+1. Delete what wasn't needed
+2. Check box in <fieldset> 
+	1. <div class="form-check">
+	2. {{ form.remember(class="form-check-input") }} --> check box itself
+	3. {{ form.remember.label(class="form-label") }} --> label for checkbox
+	4. </div>
+3. Forgot password hyperlink + password reset page
+	1. Usually after submit w/ small text and anchor text w/ href to nowhere currently (href="#")
+		1. <small class="text-muted ml-2">
+		2. <a href="#">
+		3. End tags
+4. Reformat stuff for signing up
+5. Should check if login information is valid too 
+	1. if form.validate_on_submit(): 
+	2. Force route to accept GET and POST requests
+	3. Check if login information is valid (dummy data for now; forced username-email and password)
+	4. If successful, flash message of success w/ category success
+	5. Return a redirect to the home page (URL)
+	6. Else anything that is invalid, flash message w/ advice on checking inputs w/ category danger (bootstrap)
+
+Converting Nav Bar from Direct Links to url_for():
+NOTE: direct links are good but if direct links change for any reason, it can be hard to fix
+SOLUTION: use url_for('[func name in app py file]') --> CAUTION: will throw error if called on nonexistent page (even if not clicked)
+	--> direct linking to nonexistent pages is okay in hrefs
+1. Replace /[page name] w/ {{ url_for([func name]) }}
+
+Part 4 (Database Usage w/ SQLAlchemy):

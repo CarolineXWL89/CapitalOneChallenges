@@ -1,0 +1,45 @@
+<!-- part 1 formatting
+<!DOCTYPE html>
+<html>
+<head>
+	give blog title - name if available otherwise default
+	{% if title %}
+		<title>Flask Blog Tutorial - {{ title }}</title>
+	{% else %}
+		<title>Flask Blog Tutorial</title>
+	{% endif %}
+</head>
+<body>
+	<h1>Home Page</h1>
+	{% for post in posts %} 1st code block to go through all material
+		<h2>{{ post.title }} </h2> 1nd type of code block to go access things
+		<p>{{ post.author }} on {{ post.date_posted }} </p>
+		<p>{{ post.content }} </p>
+	{% endfor %}
+</body>
+</html>
+-->
+<!-- part 2 formatting -->
+{% extends "layout.html" %}
+{% block stuff %} <!-- block content doesn't work b/c there is a template assertion error for "block 'content' defined twice" -->
+	<h1>Home Page</h1>
+	{% for post in posts %} <!--1st code block to go through all material -->
+		<!-- replacing old blog post formatting from part 1/2 w/ updated layout w/ CSS formatting from Github in part 2
+		<h2>{{ post.title }} </h2> 1nd type of code block to go access things
+		<p>{{ post.author }} on {{ post.date_posted }} </p>
+		<p>{{ post.content }} </p> -->
+
+		<!-- CSS formatting demo part 2; WHY is article the first word before class= ???? -->
+		<article class="media content-section">
+  			<div class="media-body">
+    			<div class="article-metadata">
+      				<a class="mr-2" href="#">{{ post.author }}</a>
+      				<small class="text-muted">{{ post.date_posted }}</small>
+    			</div>
+    			<h2><a class="article-title" href="#">{{ post.title }}</a></h2>
+    			<p class="article-content">{{ post.content }}</p>
+  			</div>
+		</article>
+		<!-- formatting CSS done -->
+	{% endfor %}
+{% endblock stuff %}

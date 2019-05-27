@@ -1,0 +1,22 @@
+<!-- part 1 formatting
+<!DOCTYPE html>
+<html>
+<head>
+	give blog title - name if available otherwise default
+	{% if title %}
+		<title>Flask Blog Tutorial - {{ title }}</title>
+	{% else %}
+		<title>Flask Blog Tutorial</title>
+	{% endif %}
+</head>
+<body>
+	<h1>About</h1>
+</body>
+</html>
+-->
+<!-- part 2 formatting -->
+{% extends "layout.html" %}
+{% block stuff %} <!-- block content doesn't work b/c there is a template assertion error for "block 'content' defined twice" -->
+	<h1>About</h1>
+	
+{% endblock stuff %}
