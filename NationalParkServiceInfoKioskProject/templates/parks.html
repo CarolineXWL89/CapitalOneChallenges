@@ -6,5 +6,18 @@
 
 	<p>
 		List of all parks in given state w/ links leading to the campgrounds available
+
+		<div>
+			<h3>
+				{{ num_parks }} Parks found in State Selected <!--get from clicking later -->
+			</h3>
+		</div>
+		{% for park in list_of_parks %}
+			<div class="park-list">
+				<a class="muted-text ml-2" href="{{ url_for('home') }}">
+					{{ park.get('fullName') }} <!-- defaults to home now; to specific page later -->
+				</a>
+			</div>
+		{% endfor %}
 	</p>
 {% endblock content%}

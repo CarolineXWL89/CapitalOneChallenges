@@ -1,4 +1,6 @@
-from flask import Flask, render_template, url_for
+from flask import Flask, render_template, url_for, flash, redirect
+import requests
+import json
 
 app = Flask(__name__)
 
@@ -35,9 +37,32 @@ state_dict = [
 	{'South Dakota': 'SD'}, {'Tennessee': 'TN'}, {'Texas': 'TX'}, {'Utah': 'UT'},
 	{'Vermont': 'VT'}, {'Virginia': 'VA'}, {'Washington': 'WA'}, {'West Virginia'
 	: 'WV'}, {'Wisconsin': 'WI'}, {'Wyoming': 'WY'}
-
-
 ]
+
+api_params = {
+	'api_key': 'Gyfs3mI6dUX4pKpcjcfevIVBLS5H8nytwe6L5Yue',
+	'api_base_call': 'https://developer.nps.gov/api/v1/',
+	'call_tags': {
+		1: 'alerts', 
+		2: 'articles', 
+		3: 'campgrounds', 
+		4: 'events', 
+		5: 'lessonplans',
+		6: 'newsreleases', 
+		7: 'parks', 
+		8: 'people', 
+		9: 'places', 
+		10: 'visitorcenters'},
+	'params': {
+		1: 'parkCode=', #array[String] query
+		2: 'stateCode=', #array[String] query
+		3: 'limit=', #integer query
+		4: 'start=', #integer query
+		5: 'q=', #String query
+		6: 'fields=', #array[String] query
+		7: 'sort=' #array[String] query
+	}
+}
 
 #home page
 @app.route("/")
@@ -56,6 +81,18 @@ def about():
 @app.route("/states")
 def states_list():
 	return render_template('states.html', title='Search By State', states=state_list)
+
+#park search by state page
+@app.route("/park_by_state")
+def park_by_state():
+	#sample api call; we want it to be variable; gotten from user input
+	dud_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + 'WY&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+	r = requests.get(dud_api_request)
+	#gets info from api call
+	list_of_parks = json.loads(r.text)['data'] 
+	num_parks = json.loads(r.text)['total']
+	#return dud_api_request;
+	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks)
 
 #news page
 @app.route("/news")
