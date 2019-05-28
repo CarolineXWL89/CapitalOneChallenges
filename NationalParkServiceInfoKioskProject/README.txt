@@ -30,4 +30,19 @@ SETUP:
 1. Home page (info) w/ navigation bar + search bar
 	1. About
 	2. News
-	3. 
+	3. States
+	4. Home
+	5. (?) Maybe all parks?
+2. All states --> parks in state
+3. Parks in state --> park info
+4. Park info page w/ general info, directions, etc... other stuff from API
+	1. Campgrounds list (side-bar?)
+	2. Learning info (???)
+	3. Alerts
+	4. News
+	5. Articles
+	6. Events
+	7. OTHER
+5. Campgrounds --> stuff from API
+	1. 
+6. ETC FIGURE OUT WHAT ELSE LATER
