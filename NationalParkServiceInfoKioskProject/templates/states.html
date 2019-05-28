@@ -1,0 +1,17 @@
+{% extends "general_layout.html" %}
+{% block content %}
+	<h1>
+		Search By State
+	</h1>
+
+	<p>
+		FILLED W/ LIST OF STATES ALPHABETISED W/ LINKS
+		Each state links to page w/ list of parks IN that state
+
+		{% for state in states %}
+			<div class="state-list">
+				<a class="text-muted ml-2" href="{{ url_for('home') }}">{{ state }} </a>
+			</div>
+		{% endfor %}
+	</p>
+{% endblock content%}

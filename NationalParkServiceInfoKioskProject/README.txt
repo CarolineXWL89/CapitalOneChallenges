@@ -6,7 +6,7 @@ Spec:
 1. Provides tools to assist users in finding specific information, such as state and designation filtering, name and keyword search.
 2. Lists details about specific visitor centers, as well as nearby campgrounds.
 3. Displays alerts, articles, events, and news releases about a selected destination.
-4. Provides educational information about a selected destination, utilizing available lesson plans as well as relevant people and places ssociated with the location.
+4. Provides educational information about a selected destination, utilizing available lesson plans as well as relevant people and places associated with the location.
 
 Optional:
 1. When displaying information, utilize relevant symbols from the NPS Symbol Library to illustrate relevant items.
@@ -25,3 +25,9 @@ API Key - Gyfs3mI6dUX4pKpcjcfevIVBLS5H8nytwe6L5Yue
 Get started: https://www.nps.gov/subjects/developer/get-started.htm 
 API Documentation: https://www.nps.gov/subjects/developer/api-documentation.htm#/
 Challenge Home Page: https://www.mindsumo.com/contests/national-park-api
+
+SETUP:
+1. Home page (info) w/ navigation bar + search bar
+	1. About
+	2. News
+	3. 
