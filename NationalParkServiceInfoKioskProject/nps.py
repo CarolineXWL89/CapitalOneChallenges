@@ -80,7 +80,21 @@ def about():
 #states page
 @app.route("/states")
 def states_list():
-	return render_template('states.html', title='Search By State', states=state_list)
+	return render_template('states.html', title='Search By State', states=state_list, api_params=api_params)
+
+#parks page TBD TESTING
+#state = "CA"#request.args.get('type')
+@app.route('/parks_in_<state>', methods=['GET', 'POST'])
+#@app.route('/parks/<state>', methods=['GET', 'POST'])
+def parks(state):
+	#trial api call; should search for state that we clicked
+	trial_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + state + '&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+	r = requests.get(trial_api_request)
+	#gets info from api call
+	list_of_parks = json.loads(r.text)['data'] 
+	num_parks = json.loads(r.text)['total']
+	#return api request formatted hopefully
+	return render_template('parks.html', title='Parks in ' + state, num_parks=num_parks, list_of_parks=list_of_parks, state=state)
 
 #park search by state page
 @app.route("/park_by_state")

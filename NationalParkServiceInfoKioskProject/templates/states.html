@@ -10,7 +10,7 @@
 
 		{% for state in states %}
 			<div class="state-list">
-				<a class="text-muted ml-2" href="{{ url_for('home') }}">{{ state }} </a>
+				<a class="muted-text ml-2" href="{{ url_for('parks', state=state) }}">{{ state }}</a>
 			</div>
 		{% endfor %}
 	</p>

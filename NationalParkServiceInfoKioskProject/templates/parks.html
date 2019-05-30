@@ -1,15 +1,15 @@
 {% extends "general_layout.html" %}
 {% block content %}
 	<h1>
-		Parks in [GIVEN STATE]
+		Parks in {{ state }}
 	</h1>
 
 	<p>
-		List of all parks in given state w/ links leading to the campgrounds available
+		List of all parks in given state w/ links leading to the campgrounds available - TO BE REMOVED
 
 		<div>
 			<h3>
-				{{ num_parks }} Parks found in State Selected <!--get from clicking later -->
+				{{ num_parks }} Parks found in {{ state }} <!--get from clicking later -->
 			</h3>
 		</div>
 		{% for park in list_of_parks %}
