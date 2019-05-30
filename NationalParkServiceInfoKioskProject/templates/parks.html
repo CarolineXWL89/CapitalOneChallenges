@@ -14,7 +14,7 @@
 		</div>
 		{% for park in list_of_parks %}
 			<div class="park-list">
-				<a class="muted-text ml-2" href="{{ url_for('home') }}">
+				<a class="muted-text ml-2" href="{{ url_for('chosen_park', state_abb=state_abb, state_full=state_full, park=park, park_name=park.get('fullName')) }}">
 					{{ park.get('fullName') }} <!-- defaults to home now; to specific page later -->
 				</a>
 			</div>

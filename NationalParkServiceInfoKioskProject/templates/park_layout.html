@@ -19,7 +19,7 @@
 	<title>National Park Services Home Page</title>
 	{% else %}
 	<!--<title>NPS - {{ title }}</title>-->
-	[INSERT PARK/STATE NAME LATER]
+		{{ park.get('fullName') }}
 	{% endif %}
 </head>
 <body>
@@ -58,7 +58,7 @@
 	<!--campgrounds @park: main thingy listing it out w/ links to specific pages-->
 	<!--events: after campground list; maybe will be linked-->
 	<!--articles + lessons: in double column list @bottom-->
-	<h1>Welcome to: [INSERT PARK NAME LATER]</h1>
+	<h1>Welcome to: {% park.get('fullName') %}</h1>
 	<div class="text-center text-danger">
 		<dl class="lead">
 			<h2 class="text-danger">
