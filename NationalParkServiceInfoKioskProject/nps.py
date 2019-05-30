@@ -121,25 +121,77 @@ def parks(state_abb, state_full):
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>", methods=['GET', 'POST'])
 def chosen_park(state_abb, state_full, park_name, park_code):
-	repeat_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(1) + park_code + '&' + api_params.get('params').get(2) + state_abb + '&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
-	r = requests.get(repeat_api_request)
-	single_park_list = json.loads(r.text)['data']
-	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, api_params=api_params)
+	
+	#parks? API request
+	call_tag = api_params.get('call_tags').get(7)
+	print(call_tag)
+	parks_api_request = generate_api_call(call_tag, park_code, state_abb)
+	print(parks_api_request)
+	r_parks = requests.get(parks_api_request)
+	single_park_list = json.loads(r_parks.text)['data']
 
-#park search by state page
-@app.route("/park_by_state")
-def park_by_state():
-	#sample api call; we want it to be variable; gotten from user input
-	dud_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + 'WY&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
-	print(dud_api_request)
-	r = requests.get(dud_api_request)
-	print("api request from WY dud: " + ": %s" % (r != None))
-	#gets info from api call
-	list_of_parks = json.loads(r.text)['data'] 
-	num_parks = json.loads(r.text)['total']
-	print("number of parks: " + num_parks)
-	#return dud_api_request;
-	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
+	#alerts? API request
+	call_tag = api_params.get('call_tags').get(1)
+	alerts_api_request = generate_api_call(call_tag, park_code, state_abb)
+	r_alerts = requests.get(alerts_api_request)
+	num_alerts = json.loads(r_alerts.text)['total']
+	list_of_alerts = json.loads(r_alerts.text)['data']
+	#TBD vars passed
+	#campgrounds? API request
+
+	#events? API request
+
+	#articles? API request
+
+	#temp api call + request
+	# r = requests.get(base_api_call)
+	# list_of_parks = json.loads(r.text)['data']
+
+	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts,api_params=api_params)
+
+def generate_api_call(call_tag, park_code, state_code, start=0, q="", fields=[], sort=[], limit=50):
+	api_call = api_params.get('api_base_call') + call_tag + '?'
+	if park_code:
+		api_call += api_params.get('params').get(1) + park_code + '&'
+	if state_code:
+		api_call += api_params.get('params').get(2) + state_code + '&'
+	api_call += api_params.get('params').get(3) + str(limit) + '&'
+	if start:
+		api_call += api_params.get('params').get(4) + str(start) + '&'
+	if q:
+		api_call += api_params.get('params').get(5) + q + '&'
+	if fields:
+		api_call += api_params.get('params').get(6) + '%2C%20'.join(fields) + '&'
+	if sort:
+		api_call += api_params.get('params').get(7) + '%2C%20'.join(sort) + '&'
+	api_call += 'api_key=' + api_params.get('api_key')
+	return api_call
+
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<alert_type>_<alert_num>", methods=['GET', 'POST'])
+def display_alert(state_abb, state_full, park_name, park_code, alert_type, alert_num):
+	alerts_api_request = generate_api_call('alerts', park_code, state_abb)
+	print(alerts_api_request)
+	r = requests.get(alerts_api_request)
+	list_of_alerts = json.loads(r.text)['data']
+	alert = list_of_alerts[int(alert_num)]
+	alert_title = alert.get('title')
+	alert_desc = alert.get('description')
+	return render_template('single_alert.html', state_abb=state_abb, park_name=park_name, alert_title=alert_title, alert_desc=alert_desc, alert_type=alert_type)
+
+#park search by state page dud tester
+# @app.route("/park_by_state")
+# def park_by_state():
+# 	#sample api call; we want it to be variable; gotten from user input
+# 	dud_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + 'WY&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+# 	print(dud_api_request)
+# 	r = requests.get(dud_api_request)
+# 	print("api request from WY dud: " + ": %s" % (r != None))
+# 	#gets info from api call
+# 	list_of_parks = json.loads(r.text)['data'] 
+# 	num_parks = json.loads(r.text)['total']
+# 	print("number of parks: " + num_parks)
+# 	#return dud_api_request;
+# 	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
 
 #news page
 @app.route("/news")
