@@ -80,3 +80,19 @@ a.article-title:hover {
 .account-heading {
   font-size: 2.5rem;
 }
+
+
+.alert {
+  color: #FF0000;
+}
+.alert-header {
+  font-size: : large;
+}
+
+.alert-body {
+  font-size: : medium;
+}
+
+.space-bottom {
+  padding-bottom: : 20px;
+}
