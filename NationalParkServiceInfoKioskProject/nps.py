@@ -119,6 +119,10 @@ def parks(state_abb, state_full):
 	#return api request formatted hopefully
 	return render_template('parks.html', title='Parks in ' + state_full, num_parks=num_parks, list_of_parks=list_of_parks, state_abb=state_abb, state_full=state_full)
 
+@app.route("/parks/[PASS_IN_PARK_INFO]", methods=['GET', 'POST'])
+def chosen_park():
+	return render_template('park_layout.html')
+
 #park search by state page
 @app.route("/park_by_state")
 def park_by_state():

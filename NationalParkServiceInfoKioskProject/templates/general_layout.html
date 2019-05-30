@@ -12,7 +12,7 @@
     <!-- end 1st part of bootstrap demo -->
 
     <!-- main.css/CSS usage demo part 2 start -->
-    <link rel="stylesheet" type="text/css" href=" {{ url_for('static', filename='main.css')}} ">
+    <link rel="stylesheet" type="text/css" href=" {{ url_for('static', filename='style.css')}} ">
     <!-- end main.css demo part 2 -->
 
 	{% if title == 'Home' %}
@@ -35,6 +35,7 @@
 	        		<div class="navbar-nav mr-auto">
 	          			<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
 	          			<a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+	          			<a class="nav-item nav-link" href="{{ url_for('chosen_park') }}">TEMP PARK LAYOUT</a>
 	        		</div>
 
 	        		<!-- Navbar Right Side -->
