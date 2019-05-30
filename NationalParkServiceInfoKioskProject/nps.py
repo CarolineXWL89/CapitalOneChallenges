@@ -119,9 +119,12 @@ def parks(state_abb, state_full):
 	#return api request formatted hopefully
 	return render_template('parks.html', title='Parks in ' + state_full, num_parks=num_parks, list_of_parks=list_of_parks, state_abb=state_abb, state_full=state_full)
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>", methods=['GET', 'POST'])
-def chosen_park(state_abb, state_full, park):
-	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=park)
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>", methods=['GET', 'POST'])
+def chosen_park(state_abb, state_full, park_name, park_code):
+	repeat_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(1) + park_code + '&' + api_params.get('params').get(2) + state_abb + '&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+	r = requests.get(repeat_api_request)
+	single_park_list = json.loads(r.text)['data']
+	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, api_params=api_params)
 
 #park search by state page
 @app.route("/park_by_state")

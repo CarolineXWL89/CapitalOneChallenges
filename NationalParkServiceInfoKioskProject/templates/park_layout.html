@@ -19,7 +19,9 @@
 	<title>National Park Services Home Page</title>
 	{% else %}
 	<!--<title>NPS - {{ title }}</title>-->
-		{{ park.get('fullName') }}
+	{% for p in park %}
+	<title>{{ p.get('fullName') }}</title>
+	{% endfor %}
 	{% endif %}
 </head>
 <body>
@@ -36,6 +38,7 @@
 					<div class="navbar-nav mr-auto">
 						<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
 						<a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
+						<a class="nav-item nav-link" href="{{ url_for('chosen_park', state_abb='STATE_ABB', state_full='STATE_FULL', park_name='PARK_NAME', park_code='TEMP_CODE') }}">TEMP PARK LAYOUT</a>
 					</div>
 
 					<!-- Navbar Right Side -->
@@ -58,8 +61,8 @@
 	<!--campgrounds @park: main thingy listing it out w/ links to specific pages-->
 	<!--events: after campground list; maybe will be linked-->
 	<!--articles + lessons: in double column list @bottom-->
-	<h1>Welcome to: {% park.get('fullName') %}</h1>
-	<div class="text-center text-danger">
+	<h1>Welcome to {{ park[0].get('fullName') }} National Park</h1>
+	<div class="text-center text-danger alerts">
 		<dl class="lead">
 			<h2 class="text-danger">
 				[ALERT HEADING TESTER]

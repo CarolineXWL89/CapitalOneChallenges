@@ -1,23 +1,23 @@
 {% extends "general_layout.html" %}
 {% block content %}
-	<h1>
-		Parks in {{ state_full }}
-	</h1>
+<h1>
+	Parks in {{ state_full }}
+</h1>
 
-	<p>
-		List of all parks in given state w/ links leading to the campgrounds available - TO BE REMOVED
+<p>
+	List of all parks in given state w/ links leading to the campgrounds available - TO BE REMOVED
 
-		<div>
-			<h3>
-				{{ num_parks }} Parks found in {{ state_full }} <!--get from clicking later -->
-			</h3>
-		</div>
-		{% for park in list_of_parks %}
-			<div class="park-list">
-				<a class="muted-text ml-2" href="{{ url_for('chosen_park', state_abb=state_abb, state_full=state_full, park=park, park_name=park.get('fullName')) }}">
-					{{ park.get('fullName') }} <!-- defaults to home now; to specific page later -->
-				</a>
-			</div>
-		{% endfor %}
-	</p>
+	<div>
+		<h3>
+			{{ num_parks }} Parks found in {{ state_full }} <!--get from clicking later -->
+		</h3>
+	</div>
+	{% for park in list_of_parks %}
+	<div class="park-list">
+		<a class="muted-text ml-2" href="{{ url_for('chosen_park', state_abb=state_abb, state_full=state_full, park_name=park.get('fullName'), park_code=park.get('parkCode')) }}">
+			{{ park.get('fullName') }} <!-- defaults to home now; to specific page later -->
+		</a>
+	</div>
+	{% endfor %}
+</p>
 {% endblock content%}
