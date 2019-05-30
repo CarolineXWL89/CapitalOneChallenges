@@ -1,7 +1,7 @@
 {% extends "general_layout.html" %}
 {% block content %}
 	<h1>
-		Parks in {{ state }}
+		Parks in {{ state_full }}
 	</h1>
 
 	<p>
@@ -9,7 +9,7 @@
 
 		<div>
 			<h3>
-				{{ num_parks }} Parks found in {{ state }} <!--get from clicking later -->
+				{{ num_parks }} Parks found in {{ state_full }} <!--get from clicking later -->
 			</h3>
 		</div>
 		{% for park in list_of_parks %}

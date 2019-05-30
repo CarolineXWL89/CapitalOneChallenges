@@ -21,23 +21,42 @@ state_code_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE',
 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 
 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
-state_dict = [
-	{'Alabama': 'AK'}, {'Alaska': 'AL'}, {'American Samoa': 'AS'}, {'Arizona':
-	'AZ'}, {'Arkansas': 'AR'}, {'California': 'CA'}, {'Colorado': 'CO'}, 
-	{'Connecticut': 'CT'}, {'Delaware': 'DE'}, {'District of Columbia': 'DC'},
-	{'Florida': 'FL'}, {'Georgia': 'GA'}, {'Guam': 'GU'}, {'Hawaii': 'HI'},
-	{'Idaho': 'ID'}, {'Illinois': 'IL'}, {'Indiana': 'IN'}, {'Iowa': 'IA'},
-	{'Kansas': 'KS'}, {'Kentucky': 'KY'}, {'Louisiana': 'LA'}, {'Maine': 'ME'},
-	{'Maryland': 'MD'}, {'Massachusetts': 'MA'}, {'Michigan': 'MI'}, {'Minnesota'
-	: 'MN'}, {'Mississippi': 'MP'}, {'Missouri': 'MO'}, {'Montana': 'MT'}, 
-	{'Nebraska': 'NE'}, {'Nevada': 'NV'}, {'New Hampshire': 'NH'}, {'New Jersey':
-	'NJ'}, {'New Mexico': 'NM'}, {'New York': 'NY'}, {'North Carolina': 'NC'}, 
-	{'North Dakota': 'ND'}, {'Ohio': 'OH'}, {'Oklahoma': 'OK'}, {'Oregon': 'OR'},
-	{'Pennsylvania': 'PA'}, {'Rhode Island': 'RI'}, {'South Carolina': 'SC'}, 
-	{'South Dakota': 'SD'}, {'Tennessee': 'TN'}, {'Texas': 'TX'}, {'Utah': 'UT'},
-	{'Vermont': 'VT'}, {'Virginia': 'VA'}, {'Washington': 'WA'}, {'West Virginia'
-	: 'WV'}, {'Wisconsin': 'WI'}, {'Wyoming': 'WY'}
-]
+# state_dict = [
+# 	{'Alabama': 'AK'}, {'Alaska': 'AL'}, {'Arizona':'AZ'}, {'Arkansas': 'AR'}, 
+# 	{'California': 'CA'}, {'Colorado': 'CO'}, {'Connecticut': 'CT'}, {'Delaware'
+# 	: 'DE'},{'Florida': 'FL'}, {'Georgia': 'GA'}, {'Hawaii': 'HI'},{'Idaho'
+# 	: 'ID'}, {'Illinois': 'IL'}, {'Indiana': 'IN'}, {'Iowa': 'IA'},{'Kansas'
+# 	: 'KS'}, {'Kentucky': 'KY'}, {'Louisiana': 'LA'}, {'Maine': 'ME'}, 
+# 	{'Maryland': 'MD'}, {'Massachusetts': 'MA'}, {'Michigan': 'MI'}, 
+# 	{'Minnesota': 'MN'}, {'Mississippi': 'MP'}, {'Missouri': 'MO'}, 
+# 	{'Montana': 'MT'}, {'Nebraska': 'NE'}, {'Nevada': 'NV'}, {'New Hampshire'
+# 	: 'NH'}, {'New Jersey':'NJ'}, {'New Mexico': 'NM'}, {'New York': 'NY'}, 
+# 	{'North Carolina': 'NC'}, {'North Dakota': 'ND'}, {'Ohio': 'OH'}, 
+# 	{'Oklahoma': 'OK'}, {'Oregon': 'OR'},{'Pennsylvania': 'PA'}, 
+# 	{'Rhode Island': 'RI'}, {'South Carolina': 'SC'}, {'South Dakota': 'SD'}, 
+# 	{'Tennessee': 'TN'}, {'Texas': 'TX'}, {'Utah': 'UT'},{'Vermont': 'VT'}, 
+# 	{'Virginia': 'VA'}, {'Washington': 'WA'}, {'West Virginia': 'WV'}, 
+# 	{'Wisconsin': 'WI'}, {'Wyoming': 'WY'}
+# ]
+
+state_dict = {
+	'Alabama': 'AK', 'Alaska': 'AL', 'Arizona':'AZ', 'Arkansas': 'AR', 
+	'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware'
+	: 'DE','Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI','Idaho'
+	: 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA','Kansas'
+	: 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 
+	'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 
+	'Minnesota': 'MN', 'Mississippi': 'MP', 'Missouri': 'MO', 
+	'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire'
+	: 'NH', 'New Jersey':'NJ', 'New Mexico': 'NM', 'New York': 'NY', 
+	'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 
+	'Oklahoma': 'OK', 'Oregon': 'OR','Pennsylvania': 'PA', 
+	'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 
+	'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT','Vermont': 'VT', 
+	'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 
+	'Wisconsin': 'WI', 'Wyoming': 'WY'
+}
+
 
 api_params = {
 	'api_key': 'Gyfs3mI6dUX4pKpcjcfevIVBLS5H8nytwe6L5Yue',
@@ -80,33 +99,40 @@ def about():
 #states page
 @app.route("/states")
 def states_list():
-	return render_template('states.html', title='Search By State', states=state_list, api_params=api_params)
+	return render_template('states.html', title='Search By State', states=state_dict, api_params=api_params)
 
 #parks page TBD TESTING
 #state = "CA"#request.args.get('type')
-@app.route('/parks_in_<state>', methods=['GET', 'POST'])
+@app.route('/parks_in_<state_abb>_<state_full>', methods=['GET', 'POST'])
 #@app.route('/parks/<state>', methods=['GET', 'POST'])
-def parks(state):
+def parks(state_abb, state_full):
 	#trial api call; should search for state that we clicked
-	trial_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + state + '&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+	trial_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + state_abb + '&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+	#print(trial_api_request)
 	r = requests.get(trial_api_request)
+	#print("api request from " + state + ": %s" % (r != None))
 	#gets info from api call
 	list_of_parks = json.loads(r.text)['data'] 
+	#print("list of parks: " + ', '.join(list_of_parks))
 	num_parks = json.loads(r.text)['total']
+	#print("number of parks: " + num_parks)
 	#return api request formatted hopefully
-	return render_template('parks.html', title='Parks in ' + state, num_parks=num_parks, list_of_parks=list_of_parks, state=state)
+	return render_template('parks.html', title='Parks in ' + state_full, num_parks=num_parks, list_of_parks=list_of_parks, state_abb=state_abb, state_full=state_full)
 
 #park search by state page
 @app.route("/park_by_state")
 def park_by_state():
 	#sample api call; we want it to be variable; gotten from user input
 	dud_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + 'WY&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+	print(dud_api_request)
 	r = requests.get(dud_api_request)
+	print("api request from WY dud: " + ": %s" % (r != None))
 	#gets info from api call
 	list_of_parks = json.loads(r.text)['data'] 
 	num_parks = json.loads(r.text)['total']
+	print("number of parks: " + num_parks)
 	#return dud_api_request;
-	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks)
+	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
 
 #news page
 @app.route("/news")

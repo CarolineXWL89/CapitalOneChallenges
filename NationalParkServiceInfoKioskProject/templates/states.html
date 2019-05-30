@@ -8,9 +8,9 @@
 		FILLED W/ LIST OF STATES ALPHABETISED W/ LINKS
 		Each state links to page w/ list of parks IN that state
 
-		{% for state in states %}
+		{% for state in states.keys() %}
 			<div class="state-list">
-				<a class="muted-text ml-2" href="{{ url_for('parks', state=state) }}">{{ state }}</a>
+				<a class="muted-text ml-2" href="{{ url_for('parks', state_abb=states.get(state), state_full=state) }}">{{ state }}</a>
 			</div>
 		{% endfor %}
 	</p>
