@@ -61,7 +61,7 @@
 	<!--campgrounds @park: main thingy listing it out w/ links to specific pages-->
 	<!--events: after campground list; maybe will be linked-->
 	<!--articles + lessons: in double column list @bottom-->
-	<h1>Welcome to {{ park[0].get('fullName') }} National Park</h1>
+	<h1 class="text-center">Welcome to {{ park[0].get('fullName') }} National Park</h1>
 	<div class="text-center text-danger alerts">
 		<dl class="lead text-danger">
 			<h2 class="text-danger">
@@ -148,14 +148,27 @@
 				<!--temporary side bar for news-->
 				<div class="row justify-content-end">
 					<div class="content-section">
-						<h3>News</h3>
-						<p class='text-muted'>[NAME OF PARK]
+						<h3>
+							<a href="{{ url_for('display_all_news', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode')) }}">News</a>
+						</h3>
+						<p class='text-muted'>{{ park[0].get('fullName') }}
 							<ul class="list-group">
 								<!--posts will be headlines for news stories + blurbs-->
+								{% if news == [] %}
+									There is no news for {{ park[0].get('fullName') }}
+								{% else %}
+								{% for i in range(4) %}
+									<li class="list-group-item list-group-item-light">
+										<a href="{{ url_for('news_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode')) }}">{{ news[i].get('title') }}</a>
+									</li>
+								{% endfor %}
+								{% endif %}
+
+								<!--
 								<li class="list-group-item list-group-item-light">Latest Posts</li>
 								<li class="list-group-item list-group-item-light">Announcements</li>
 								<li class="list-group-item list-group-item-light">Calendars</li>
-								<li class="list-group-item list-group-item-light">etc</li>
+								<li class="list-group-item list-group-item-light">etc</li>-->
 							</ul>
 						</p>
 					</div>
