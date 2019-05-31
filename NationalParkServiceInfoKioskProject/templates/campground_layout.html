@@ -1,0 +1,19 @@
+{% extends "general_layout.html" %} <!--TBD later if we need to move to own layout-->
+{% block content %}
+<h1>
+	{{ campground_name }}
+</h1>
+{% if campground.get('images') != None %}
+{% for image in campground.get('images') %}
+<div>[HOVER TITLE LATER] {{ image.get('title') }} </div>
+<img src="{{ image.get('url') }}">
+<small>
+	{{ image.get('caption') }}
+	Credit: {{ image.credit }}
+</small>
+{% endfor %}
+{% endif %}
+<p>
+	[TO BE FILLED W/ LOADS OF INFO]
+</p>
+{% endblock content %}

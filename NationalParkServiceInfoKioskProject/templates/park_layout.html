@@ -80,21 +80,29 @@
 	<div class="offset-sm-2 py-2">
 		<div class="row">
 			<div class="col-sm-4 pb-5">
-				<div class="pb-4 font-weight-bold text-capitalize lead">COL 1 - CAMPGROUNDS DATA LIST</div>
-				<div class="pb-3">STUFF</div>
+				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 1 - CAMPGROUNDS DATA LIST</div>
+				{% if campgrounds == [] %}
+				<div class="pb-3 text-center">There are no campgrounds for {{ park[0].get('fullName') }} National Park</div>
+				{% else %}
+				{% for campground in campgrounds %}
+				<div class="pb-3">
+					<a class="text-muted" href="{{ url_for('show_campground', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), campground_name=campground.get('name')) }}">{{ campground.get('name') }}</a>
+					<div class="pb-2">
+						{{ campground.get('campsites').get('totalsites') }} total sites available
+					</div>
+				</div>
+				{% endfor %}
+				{% endif %}
+			</div>
+			<div class="col-sm-4 pb-5">
+				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 2 - ARTICLES LIST</div>
+				<div>STUFF</div>
 				<div>STUFF</div>
 				<div>STUFF</div>
 				<div>STUFF</div>
 			</div>
 			<div class="col-sm-4 pb-5">
-				<div class="pb-4 font-weight-bold text-capitalize lead">COL 2 - ARTICLES LIST</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-			</div>
-			<div class="col-sm-4 pb-5">
-				<div class="pb-4 font-weight-bold text-capitalize lead">COL 3 - EVENTS LIST</div>
+				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 3 - EVENTS LIST</div>
 				<div>STUFF</div>
 				<div>STUFF</div>
 				<div>STUFF</div>
@@ -104,38 +112,34 @@
 
 		<div class="row">
 			<div class="col-sm-4 ">
-				<div class="pb-4 font-weight-bold text-capitalize lead">COL 4 - LESSONS DATA LIST</div>
+				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 4 - LESSONS DATA LIST</div>
 			</div>
 			<div class="col-sm-4">
-				<div class="pb-4 font-weight-bold text-capitalize lead">COL 5 - PEOPLE LIST</div>
+				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 5 - PEOPLE LIST</div>
 			</div>
 			<div class="col-sm-4">
-				<div class="pb-4 font-weight-bold text-capitalize lead">COL 6 - PLACES LIST</div>
+				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 6 - PLACES LIST</div>
 			</div>
 		</div>
 	</div>
 
 	<div class="offset-sm-2 py-2">
-		<h3>WILL BE PARK DESCRIPTION put above other links</h3>
-		<p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag wolf squid tote bag. Tote bag cronut semiotics,
-			raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics ugh synth chillwave meditation.
-		Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella DIY 90's blog.</p>
+		<h3 class="text-capitalize">About {{ park[0].get('fullName') }}</h3>
+		<p>
+			{{ park[0].get('description') }}
+		</p>
 
-		<p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag wolf squid tote bag. Tote bag cronut semiotics,
-			raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics ugh synth chillwave meditation.
-		Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella DIY 90's blog.</p>
+		<h3 class="text-capitalize">Weather Conditions</h3>
 
-		<p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag wolf squid tote bag. Tote bag cronut semiotics,
-			raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics ugh synth chillwave meditation.
-		Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella DIY 90's blog.</p>
+		<p>
+			{{ park[0].get('weatherInfo') }}
+		</p>
 
-		<p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag wolf squid tote bag. Tote bag cronut semiotics,
-			raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics ugh synth chillwave meditation.
-		Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella DIY 90's blog.</p>
+		<h3 class="text-capitalize">Directions</h3>
 
-		<p>Sriracha biodiesel taxidermy organic post-ironic, Intelligentsia salvia mustache 90's code editing brunch. Butcher polaroid VHS art party, hashtag Brooklyn deep v PBR narwhal sustainable mixtape swag wolf squid tote bag. Tote bag cronut semiotics,
-			raw denim deep v taxidermy messenger bag. Tofu YOLO Etsy, direct trade ethical Odd Future jean shorts paleo. Forage Shoreditch tousled aesthetic irony, street art organic Bushwick artisan cliche semiotics ugh synth chillwave meditation.
-		Shabby chic lomo plaid vinyl chambray Vice. Vice sustainable cardigan, Williamsburg master cleanse hella DIY 90's blog.</p>
+		<p>
+			<a href="{{ park[0].get('url') }}">Visit the {{ park[0].get('fullName') }} National Park official website</a>
+		</p>
 	</div>
 
 	<div class="container-fluid h-100">
