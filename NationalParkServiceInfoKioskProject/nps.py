@@ -170,13 +170,20 @@ def generate_api_call(call_tag, park_code, state_code, start=0, q="", fields=[],
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<alert_type>_<alert_num>", methods=['GET', 'POST'])
 def display_alert(state_abb, state_full, park_name, park_code, alert_type, alert_num):
 	alerts_api_request = generate_api_call('alerts', park_code, state_abb)
-	print(alerts_api_request)
+	#print(alerts_api_request)
 	r = requests.get(alerts_api_request)
 	list_of_alerts = json.loads(r.text)['data']
 	alert = list_of_alerts[int(alert_num)]
 	alert_title = alert.get('title')
 	alert_desc = alert.get('description')
 	return render_template('single_alert.html', state_abb=state_abb, park_name=park_name, alert_title=alert_title, alert_desc=alert_desc, alert_type=alert_type)
+
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/alerts", methods=['GET', 'POST'])
+def display_all_alerts(state_abb, state_full, park_name, park_code):
+	alerts_api_request = generate_api_call('alerts', park_code, state_abb)
+	r = requests.get(alerts_api_request)
+	list_of_alerts = json.loads(r.text)['data']
+	return render_template('alerts.html', park_name=park_name, alerts=list_of_alerts)
 
 #park search by state page dud tester
 # @app.route("/park_by_state")

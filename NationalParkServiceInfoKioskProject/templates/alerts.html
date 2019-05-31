@@ -1,0 +1,11 @@
+{% extends 'general_layout.html' %}
+{% block content %}
+	<h1>Alerts in {{ park_name }}</h1>
+	{% for alert in alerts %}
+		<div>
+			<h2>{{ alert.get('title') }}</h2>
+			<h4>{{ alert.get('category') }}</h4>
+			<p>{{ alert.get('description') }}</p>
+		</div>
+	{% endfor %}
+{% endblock content %}
