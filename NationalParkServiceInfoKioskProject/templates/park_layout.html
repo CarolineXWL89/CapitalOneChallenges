@@ -110,10 +110,13 @@
 					{% else %}
 					{% for article in articles %}
 					<div class="pb-3">
-						<a class="text-primary" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">{{ article.get('title') }}</a>
-						{% if article.get('listingDescription') != None %}
+						<!--<a class="text-primary" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">{{ article.get('title') }}</a>-->
+						<a href="{{ article.get('url') }}">{{ article.get('title') }}</a>
+
+						{% if article.get('listingDescription') != "" %}
 						<div>
-							{{ article.get('listingDescription')[0, 50] }} ... <a class="text-muted" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">read more</a>
+							{{ article.get('listingDescription')[0, 50] }} ... <!--<a class="text-muted" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">read more</a>-->
+							<a href="{{ article.get('url') }}">read more</a>
 						</div>
 						{% endif %}
 					</div>
@@ -133,7 +136,7 @@
 					{% for event in events %}
 					<div class="pb-3">
 						<a class="text-primary" href="{{ url_for('event_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), event_id=event.get('id')) }}">{{ event.get('title') }}</a>
-						{% if event.get('description') != None %}
+						{% if event.get('description') != "" %}
 						<div>
 							{{ event.get('description')[0, 20] }} ... <a class="text-muted" href="{{ url_for('event_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), event_id=event.get('id')) }}">read more</a>
 						</div>
@@ -251,7 +254,7 @@
 								{% else %}
 								{% for i in range(4) %}
 								<li class="list-group-item list-group-item-light">
-									<a class="text-muted small" href="{{ url_for('news_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), news_title=news[i].get('title')) }}">{{ news[i].get('title') }}</a>
+									<a class="text-muted small" href="{{ news[i].get('url') }}">{{ news[i].get('title') }}</a>
 								</li>
 								{% endfor %}
 								{% endif %}
