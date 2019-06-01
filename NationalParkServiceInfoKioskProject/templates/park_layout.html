@@ -77,113 +77,129 @@
 		</dl>
 	</div>
 
-	<div class="offset-sm-2 py-2">
+	<div class="offset-sm-3 py-2">
 		<div class="row">
 			<div class="col-sm-4 pb-5">
 				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 1 - CAMPGROUNDS DATA LIST</div>
-				{% if campgrounds == [] %}
-				<div class="pb-3 text-center">There are no campgrounds for {{ park[0].get('fullName') }} National Park</div>
-				{% else %}
-				{% for campground in campgrounds %}
-				<div class="pb-3">
-					<a class="text-muted" href="{{ url_for('show_campground', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), campground_name=campground.get('name')) }}">{{ campground.get('name') }}</a>
-					<div class="pb-2">
-						{{ campground.get('campsites').get('totalsites') }} total sites available
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#campsite-collapse">
+					Show All Campsites
+				</button>
+				<div id="campsite-collapse" class="collapse">
+					{% if num_camps == 0 %}
+					<div class="pb-3 text-center">There are no campgrounds for {{ park[0].get('fullName') }} National Park</div>
+					{% else %}
+					{% for campground in campgrounds %}
+					<div class="pb-3">
+						<a class="text-primary" href="{{ url_for('show_campground', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), campground_name=campground.get('name')) }}">{{ campground.get('name') }}</a>
+						<div class="pb-2">
+							{{ campground.get('campsites').get('totalsites') }} total sites available
+						</div>
 					</div>
+					{% endfor %}
+					{% endif %}
 				</div>
-				{% endfor %}
-				{% endif %}
 			</div>
-			<div class="col-sm-4 pb-5">
+			<div class="col-sm-4 pb-5 container">
 				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 2 - ARTICLES LIST</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#article-collapse">
+					Show All Articles
+				</button>
+				<!--<div class="collapse" aria-expanded= "false" id="article-collapse">-->
+					<div id="article-collapse" class="collapse">
+						{% if num_articles == 0 %}
+						<div class="pb-3 text-center">There are no articles for {{ park[0].get('fullName') }} National Park</div>
+						{% else %}
+						{% for article in articles %}
+						<div class="pb-3">
+							<a class="text-primary" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">{{ article.get('title') }}</a>
+							{% if article.get('listingDescription') != "" %}
+							<div>
+								{{ article.get('listingDescription')[0, 50] }} ... <a class="text-muted" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">read more</a>
+							</div>
+							{% endif %}
+						</div>
+						{% endfor %}
+						{% endif %}
+						<!--<a role="button" class="collapsed" data-toggle="collapse" href="#article-collapse" aria-expanded="false" aria-control="article-collapse">+ SHOW MORE</a>-->
+					</div>
+				</div>
+				<div class="col-sm-4 pb-5">
+					<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 3 - EVENTS LIST</div>
+					<div>STUFF</div>
+					<div>STUFF</div>
+					<div>STUFF</div>
+					<div>STUFF</div>
+				</div>
 			</div>
-			<div class="col-sm-4 pb-5">
-				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 3 - EVENTS LIST</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
-				<div>STUFF</div>
+
+			<div class="row">
+				<div class="col-sm-4 ">
+					<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 4 - LESSONS DATA LIST</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 5 - PEOPLE LIST</div>
+				</div>
+				<div class="col-sm-4">
+					<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 6 - PLACES LIST</div>
+				</div>
 			</div>
 		</div>
 
-		<div class="row">
-			<div class="col-sm-4 ">
-				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 4 - LESSONS DATA LIST</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 5 - PEOPLE LIST</div>
-			</div>
-			<div class="col-sm-4">
-				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 6 - PLACES LIST</div>
-			</div>
+		<div class="offset-sm-3 py-2">
+			<h3 class="text-capitalize">About {{ park[0].get('fullName') }}</h3>
+			<p>
+				{{ park[0].get('description') }}
+			</p>
+
+			<h3 class="text-capitalize">Weather Conditions</h3>
+
+			<p>
+				{{ park[0].get('weatherInfo') }}
+			</p>
+
+			<h3 class="text-capitalize">Directions</h3>
+
+			<p>
+				<a href="{{ park[0].get('url') }}">Visit the {{ park[0].get('fullName') }} National Park official website</a>
+			</p>
 		</div>
-	</div>
 
-	<div class="offset-sm-2 py-2">
-		<h3 class="text-capitalize">About {{ park[0].get('fullName') }}</h3>
-		<p>
-			{{ park[0].get('description') }}
-		</p>
-
-		<h3 class="text-capitalize">Weather Conditions</h3>
-
-		<p>
-			{{ park[0].get('weatherInfo') }}
-		</p>
-
-		<h3 class="text-capitalize">Directions</h3>
-
-		<p>
-			<a href="{{ park[0].get('url') }}">Visit the {{ park[0].get('fullName') }} National Park official website</a>
-		</p>
-	</div>
-
-	<div class="container-fluid h-100">
-		<div class="row h-100">
-			<div class="col-2 h-100 py-2 d-flex align-items-center fixed-top" id="left">
-				<!--temporary side bar for news-->
-				<div class="row justify-content-end">
-					<div class="content-section">
-						<h3>
-							<a href="{{ url_for('display_all_news', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode')) }}">News</a>
-						</h3>
-						<p class='text-muted'>{{ park[0].get('fullName') }}
-							<ul class="list-group">
-								<!--posts will be headlines for news stories + blurbs-->
-								{% if news == [] %}
+		<div class="container-fluid h-100">
+			<div class="row h-100">
+				<div class="col-2 h-100 py-2 d-flex align-items-center fixed-top" id="left">
+					<!--temporary side bar for news-->
+					<div class="row justify-content-end">
+						<div class="content-section">
+							<h3>
+								<a href="{{ url_for('display_all_news', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode')) }}">News</a>
+							</h3>
+							<p class='text-muted'>{{ park[0].get('fullName') }}
+								<ul class="list-group text-muted">
+									<!--posts will be headlines for news stories + blurbs-->
+									{% if num_news == 0 %}
 									There is no news for {{ park[0].get('fullName') }}
-								{% else %}
-								{% for i in range(4) %}
+									{% else %}
+									{% for i in range(4) %}
 									<li class="list-group-item list-group-item-light">
-										<a href="{{ url_for('news_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode')) }}">{{ news[i].get('title') }}</a>
+										<a class="text-muted small" href="{{ url_for('news_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), news_title=news[i].get('title')) }}">{{ news[i].get('title') }}</a>
 									</li>
-								{% endfor %}
-								{% endif %}
-
-								<!--
-								<li class="list-group-item list-group-item-light">Latest Posts</li>
-								<li class="list-group-item list-group-item-light">Announcements</li>
-								<li class="list-group-item list-group-item-light">Calendars</li>
-								<li class="list-group-item list-group-item-light">etc</li>-->
-							</ul>
-						</p>
+									{% endfor %}
+									{% endif %}
+								</ul>
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	<!--rest of bootstrap demo stuff code -->
-	<!-- bootstrap intro JS part -->
-	<!-- Optional JavaScript -->
-	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-	<!-- end 2nd part bootstrap demo -->
-</body>
-</html>
+		<!--rest of bootstrap demo stuff code -->
+		<!-- bootstrap intro JS part -->
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<!-- end 2nd part bootstrap demo -->
+	</body>
+	</html>

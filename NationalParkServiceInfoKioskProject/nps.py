@@ -154,12 +154,13 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 	#events? API request
 
 	#articles? API request
+	call_tag = api_params.get('call_tags').get(2)
+	articles_api_request = generate_api_call(call_tag, park_code, state_abb)
+	r_articles = requests.get(articles_api_request)
+	num_articles = json.loads(r_articles.text)['total']
+	list_of_articles = json.loads(r_articles.text)['data']
 
-	#temp api call + request
-	# r = requests.get(base_api_call)
-	# list_of_parks = json.loads(r.text)['data']
-
-	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news)
+	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles)
 
 def generate_api_call(call_tag, park_code, state_code, start=0, q="", fields=[], sort=[], limit=50):
 	api_call = api_params.get('api_base_call') + call_tag + '?'
@@ -214,6 +215,7 @@ def show_campground(state_abb, state_full, park_name, park_code, campground_name
 		sys.exit(1)
 	return render_template('campground_layout.html', title=campground_name,state_abb=state_abb, state_full=state_full, park_name=park_name, campground_name=campground_name, campground=campground)
 	#return render_template('campground_layout.html', title='Dummy Campground')
+
 #park search by state page dud tester
 @app.route("/park_by_state")
 def park_by_state():
@@ -232,17 +234,23 @@ def park_by_state():
 #news page (general? Might replace later)
 @app.route("/news")
 def news():
+
 	return render_template('general_layout.html', title='News in Parks')
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/", methods=['GET', 'POST'])
-def news_by_park(state_abb, state_full, park_name, park_code):
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<news_title>", methods=['GET', 'POST'])
+def news_by_park(state_abb, state_full, park_name, park_code, news_title):
 
-	return render_template("single_news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, news=news)
+	return render_template("single_news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, new_single=news)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):
 
 	return render_template("news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, news_all=news_all)
+
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<article_id>/")
+def article_by_park(state_abb, state_full, park_name, park_code, article_id):
+
+	return render_template('single_article.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, article=article)
 
 #run w/o command line instructions
 #__name__ is __main__ if run w/ python.script directly; i.e. will enter conditional

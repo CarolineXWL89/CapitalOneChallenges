@@ -92,3 +92,16 @@ a.article-title:hover {
 .alert-body {
   font-size: : medium;
 }
+
+#module {
+  font-size: 14px;
+  line-height: 1.5;
+}
+#module p.collapse[aria-expanded="false"] {
+    display: block;
+    height: 42px !important;
+    overflow: hidden;
+}
+#module p.collapsing[aria-expanded="false"] {
+    height: 42px !important;
+}
