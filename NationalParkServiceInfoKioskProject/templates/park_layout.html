@@ -148,6 +148,25 @@
 		<div class="row">
 			<div class="col-sm-4 ">
 				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 4 - LESSONS DATA LIST</div>
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#lessons-collapse">
+					Show All Lessons
+				</button>
+				<div id="lessons-collapse" class="collapse">
+					{% if num_lessons == 0 %}
+					<div class="pb-3 text-center">There are no lessons for {{ park[0].get('fullName') }} National Park</div>
+					{% else %}
+					{% for lesson in lessons %}
+					<div class="pb-3">
+						<a class="text-primary" href="{{ url_for('lesson_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), lesson_id=lesson.get('id')) }}">{{ lesson.get('title') }}</a>
+						<div>
+							<div>Subject: {{ lesson.get('subject') }}</div>
+							<div>Grade(s): {{ lesson.get('gradeLevel') }}</div>
+							<div>Duration: {{ lesson.get('duration') }}</div>
+						</div>
+					</div>
+					{% endfor %}
+					{% endif %}
+				</div>
 			</div>
 			<div class="col-sm-4">
 				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 5 - PEOPLE LIST</div>
