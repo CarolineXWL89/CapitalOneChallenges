@@ -5,56 +5,12 @@ import json
 app = Flask(__name__)
 
 #might turn into dictionary w/ State vs State code
-state_list = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 
-'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii','Idaho', 
-'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 
-'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 
-'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 
-'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 
-'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 
-'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 
-'West Virginia', 'Wisconsin', 'Wyoming']
+state_list = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii','Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
 
-state_code_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 
-'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 
-'MA', 'MI', 'MN', 'MP', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 
-'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 
-'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
-
-# state_dict = [
-# 	{'Alabama': 'AK'}, {'Alaska': 'AL'}, {'Arizona':'AZ'}, {'Arkansas': 'AR'}, 
-# 	{'California': 'CA'}, {'Colorado': 'CO'}, {'Connecticut': 'CT'}, {'Delaware'
-# 	: 'DE'},{'Florida': 'FL'}, {'Georgia': 'GA'}, {'Hawaii': 'HI'},{'Idaho'
-# 	: 'ID'}, {'Illinois': 'IL'}, {'Indiana': 'IN'}, {'Iowa': 'IA'},{'Kansas'
-# 	: 'KS'}, {'Kentucky': 'KY'}, {'Louisiana': 'LA'}, {'Maine': 'ME'}, 
-# 	{'Maryland': 'MD'}, {'Massachusetts': 'MA'}, {'Michigan': 'MI'}, 
-# 	{'Minnesota': 'MN'}, {'Mississippi': 'MP'}, {'Missouri': 'MO'}, 
-# 	{'Montana': 'MT'}, {'Nebraska': 'NE'}, {'Nevada': 'NV'}, {'New Hampshire'
-# 	: 'NH'}, {'New Jersey':'NJ'}, {'New Mexico': 'NM'}, {'New York': 'NY'}, 
-# 	{'North Carolina': 'NC'}, {'North Dakota': 'ND'}, {'Ohio': 'OH'}, 
-# 	{'Oklahoma': 'OK'}, {'Oregon': 'OR'},{'Pennsylvania': 'PA'}, 
-# 	{'Rhode Island': 'RI'}, {'South Carolina': 'SC'}, {'South Dakota': 'SD'}, 
-# 	{'Tennessee': 'TN'}, {'Texas': 'TX'}, {'Utah': 'UT'},{'Vermont': 'VT'}, 
-# 	{'Virginia': 'VA'}, {'Washington': 'WA'}, {'West Virginia': 'WV'}, 
-# 	{'Wisconsin': 'WI'}, {'Wyoming': 'WY'}
-# ]
+state_code_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', 'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD', 'MA', 'MI', 'MN', 'MP', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ', 'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC', 'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY']
 
 state_dict = {
-	'Alabama': 'AK', 'Alaska': 'AL', 'Arizona':'AZ', 'Arkansas': 'AR', 
-	'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware'
-	: 'DE','Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI','Idaho'
-	: 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA','Kansas'
-	: 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 
-	'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 
-	'Minnesota': 'MN', 'Mississippi': 'MP', 'Missouri': 'MO', 
-	'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire'
-	: 'NH', 'New Jersey':'NJ', 'New Mexico': 'NM', 'New York': 'NY', 
-	'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 
-	'Oklahoma': 'OK', 'Oregon': 'OR','Pennsylvania': 'PA', 
-	'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 
-	'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT','Vermont': 'VT', 
-	'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 
-	'Wisconsin': 'WI', 'Wyoming': 'WY'
+	'Alabama': 'AK', 'Alaska': 'AL', 'Arizona':'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE','Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI','Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA','Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MP', 'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey':'NJ', 'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR','Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT','Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'
 }
 
 
@@ -172,7 +128,21 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 	num_lessons = json.loads(r_lessons.text)['total']
 	list_of_lessons = json.loads(r_lessons.text)['data']
 
-	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons)
+	#people? API request
+	call_tag = api_params.get('call_tags').get(8)
+	people_api_request = generate_api_call(call_tag, park_code, state_abb)
+	r_people = requests.get(people_api_request)
+	num_people = json.loads(r_people.text)['total']
+	list_of_people = json.loads(r_people.text)['data']
+
+	#places? API request
+	call_tag = api_params.get('call_tags').get(9)
+	places_api_request = generate_api_call(call_tag, park_code, state_abb)
+	r_places = requests.get(places_api_request)
+	num_places = json.loads(r_places.text)['total']
+	list_of_places = json.loads(r_places.text)['data']
+
+	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons, num_people=num_people, people=list_of_people, num_places=num_places, places=list_of_places)
 
 def generate_api_call(call_tag, park_code, state_code, start=0, q="", fields=[], sort=[], limit=50):
 	api_call = api_params.get('api_base_call') + call_tag + '?'
@@ -228,6 +198,7 @@ def show_campground(state_abb, state_full, park_name, park_code, campground_name
 	return render_template('campground_layout.html', title=campground_name,state_abb=state_abb, state_full=state_full, park_name=park_name, campground_name=campground_name, campground=campground)
 	#return render_template('campground_layout.html', title='Dummy Campground')
 
+#REMOVE TENTATIVELY
 #park search by state page dud tester
 @app.route("/park_by_state")
 def park_by_state():
@@ -243,6 +214,7 @@ def park_by_state():
 	#return dud_api_request;
 	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
 
+#REMOVE TENTATIVELY
 #news page (general? Might replace later)
 @app.route("/news")
 def news():
