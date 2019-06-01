@@ -152,6 +152,11 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 	list_of_news = json.loads(r_news.text)['data']
 
 	#events? API request
+	call_tag = api_params.get('call_tags').get(4)
+	events_api_request = generate_api_call(call_tag, park_code, state_abb)
+	r_events = request.get(events_api_request)
+	num_events = json.loads(r_events.text)['total']
+	list_of_events = json.loads(r_events.text)['data']
 
 	#articles? API request
 	call_tag = api_params.get('call_tags').get(2)
@@ -160,7 +165,7 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 	num_articles = json.loads(r_articles.text)['total']
 	list_of_articles = json.loads(r_articles.text)['data']
 
-	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles)
+	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events)
 
 def generate_api_call(call_tag, park_code, state_code, start=0, q="", fields=[], sort=[], limit=50):
 	api_call = api_params.get('api_base_call') + call_tag + '?'
@@ -239,18 +244,33 @@ def news():
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<news_title>", methods=['GET', 'POST'])
 def news_by_park(state_abb, state_full, park_name, park_code, news_title):
-
+	#TODO
 	return render_template("single_news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, new_single=news)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):
-
+	#TODO
 	return render_template("news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, news_all=news_all)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<article_id>/")
 def article_by_park(state_abb, state_full, park_name, park_code, article_id):
-
+	#TODO	
 	return render_template('single_article.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, article=article)
+
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/articles/")
+def display_all_articles(state_abb, state_full, park_name, park_code):
+	#TODO
+	return render_template('articles.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, articles=articles)
+
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<event_id>/")
+def event_by_park(state_abb, state_full, park_name, park_code, event_id):
+	#TODO
+	return render_template('single_event.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, event=event)
+
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/events/")
+def display_all_events(state_abb, state_full, park_name, park_code):
+	#TODO
+	return render_template('events.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, events=events)
 
 #run w/o command line instructions
 #__name__ is __main__ if run w/ python.script directly; i.e. will enter conditional
