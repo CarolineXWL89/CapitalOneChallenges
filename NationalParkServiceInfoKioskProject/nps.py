@@ -198,6 +198,11 @@ def show_campground(state_abb, state_full, park_name, park_code, campground_name
 	return render_template('campground_layout.html', title=campground_name,state_abb=state_abb, state_full=state_full, park_name=park_name, campground_name=campground_name, campground=campground)
 	#return render_template('campground_layout.html', title='Dummy Campground')
 
+@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<campground_name>/<campsite_name>")
+def show_campsite(state_abb, state_full, park_name, park_code, campground_name, campsite_name):
+	#TODO
+	return render_template('campsite.html')
+
 #REMOVE TENTATIVELY
 #park search by state page dud tester
 @app.route("/park_by_state")
@@ -226,6 +231,8 @@ def news():
 # 	#TODO
 # 	return render_template("single_news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, new_single=news)
 
+#might delete the single display pages b/c directly linked to page
+#CURRENTLY: keep campgrounds, events erroring, lessons not set + erroring, 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):
 	#TODO
