@@ -249,13 +249,15 @@
 						<p class='text-muted'>{{ park[0].get('fullName') }}
 							<ul class="list-group text-muted">
 								<!--posts will be headlines for news stories + blurbs-->
-								{% if num_news == 0 %}
+								{% if num_news == "0" %}
 								There is no news for {{ park[0].get('fullName') }}
 								{% else %}
 								{% for i in range(4) %}
+								{% if i < (num_news | int) %}
 								<li class="list-group-item list-group-item-light">
 									<a class="text-muted small" href="{{ news[i].get('url') }}">{{ news[i].get('title') }}</a>
 								</li>
+								{% endif %}
 								{% endfor %}
 								{% endif %}
 							</ul>
