@@ -16,7 +16,7 @@
 			General Information
 		</h2>
 		<div class="row">
-			<div class="col-lg-3">
+			<div class="col-lg-2">
 				<div class="font-weight-bold">
 					General Directions
 				</div>
@@ -27,7 +27,7 @@
 					<a href="{{ campground.get('directionsUrl') }}">Details</a>
 				</div>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-2">
 				<div class="font-weight-bold">
 					General Weather
 				</div>
@@ -35,12 +35,19 @@
 					{{ campground.get('weatheroverview') }}
 				</div>
 			</div>
-			<div class="col-lg-3">
+			<div class="col-lg-2">
 				<div class="font-weight-bold">
 					Operating Hours
 				</div>
-				<div class="col-sm-3">
+				<div>
 					{{ campground.get('operatinghours') }}
+				</div>
+			</div>
+			<div class="col-lg-3">
+				<!--Google map-->
+				<div id="map-container-google-2" class="z-depth-1-half map-container">
+					<iframe src="https://maps.google.com/maps?q={{ lat }},{{ lng }}&hl=es;z=14&amp;output=embed" height="450" width="600" frameborder="0"
+					style="border:0" allowfullscreen></iframe>
 				</div>
 			</div>
 		</div>

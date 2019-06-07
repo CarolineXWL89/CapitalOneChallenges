@@ -1,6 +1,8 @@
 from flask import Flask, render_template, url_for, flash, redirect
 import requests
 import json
+import re
+from decimal import Decimal
 
 app = Flask(__name__)
 
@@ -188,14 +190,26 @@ def show_campground(state_abb, state_full, park_name, park_code, campground_name
 	r = requests.get(campgrounds_api_request)
 	list_of_campgrounds = json.loads(r.text)['data']
 	campground = None
+	latLong = []
+	lat = 0
+	lng = 0
+	map_query = ""
 	for i in range(len(list_of_campgrounds)):
 		if list_of_campgrounds[i].get('name') == campground_name:
 			campground = list_of_campgrounds[i]
+			latLong = re.findall('\-?\d+', campground.get('latLong'))
+			print("latLong: " + ",".join(latLong))
+			lat = str(Decimal(str(latLong[0]) + "." + str(latLong[1])))
+			print("lat: " + str(lat))
+			lng = str(Decimal(str(latLong[2]) + "." + str(latLong[3])))
+			print("long: " + str(lng))
+			map_query = "https://www.google.com/maps/search/?api=1&query=" + str(lat) + "," + str(lng)
+			print(map_query)
 			break
 	if campground == None:
 		print("Campground not found")
 		sys.exit(1)
-	return render_template('campground_layout.html', title=campground_name,state_abb=state_abb, state_full=state_full, park_name=park_name, campground_name=campground_name, campground=campground)
+	return render_template('campground_layout.html', title=campground_name,state_abb=state_abb, state_full=state_full, park_name=park_name, campground_name=campground_name, campground=campground, lat=lat, lng=lng, map_query=map_query)
 	#return render_template('campground_layout.html', title='Dummy Campground')
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<campground_name>/<campsite_name>")
