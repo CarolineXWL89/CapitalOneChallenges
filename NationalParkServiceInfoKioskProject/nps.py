@@ -241,7 +241,7 @@ def news():
 	return render_template('general_layout.html', title='News in Parks')
 
 # @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<news_title>", methods=['GET', 'POST'])
-# def news_by_park(state_abb, state_full, park_name, park_code, news_title):
+# def news_by_park(state_abb, state_full, park_name, park_code, news_id):
 # 	#TODO
 # 	return render_template("single_news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, new_single=news)
 
@@ -250,7 +250,12 @@ def news():
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):
 	#TODO
-	return render_template("news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, news_all=news_all)
+	call_tag = api_params.get('call_tags').get(6)
+	news_api_request = generate_api_call(call_tag, park_code, state_abb)
+	r_news = requests.get(news_api_request)
+	num_news = int(json.loads(r_news.text)['total'])
+	news_all = json.loads(r_news.text)['data']
+	return render_template("news.html", title="News for " + park_name, state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, num_news=num_news, news_all=news_all)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<article_id>/")
 def article_by_park(state_abb, state_full, park_name, park_code, article_id):
