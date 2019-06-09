@@ -18,6 +18,36 @@ state_dict = {
 	'Alaska': 'AK', 'Alabama': 'AL', 'Arkansas': 'AR', 'American Samoa': 'AS','Arizona':'AZ', 'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'District of Columbia':'DC', 'Delaware': 'DE','Florida': 'FL', 'Georgia': 'GA', 'Guam': 'GU', 'Hawaii': 'HI', 'Iowa': 'IA','Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Massachusetts': 'MA', 'Maryland': 'MD', 'Maine': 'ME', 'Michigan': 'MI', 'Minnesota': 'MN', 'Missouri': 'MO', 'Northern Mariana Islands': 'MP', 'Mississippi': 'MP', 'Montana': 'MT','National': 'NA', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Nebraska': 'NE', 'New Hampshire': 'NH', 'New Jersey':'NJ', 'New Mexico': 'NM', 'Nevada': 'NV', 'New York': 'NY', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR','Pennsylvania': 'PA','Puerto Rico': 'PR', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT', 'Virginia': 'VA', 'Virgin Islands': 'VI', 'Vermont': 'VT', 'Washington': 'WA', 'Wisconsin': 'WI', 'West Virginia': 'WV', 'Wyoming': 'WY'
 }
 
+alphabet_to_state = {
+	'Show All': state_list,
+	'A': ['Alaska', 'Alabama', 'Arkansas', 'American Samoa', 'Arizona'],
+	'B': [],
+	'C': ['California', 'Colorado', 'Connecticut'],
+	'D': ['District of Columbia', 'Delaware'],
+	'E': [],
+	'F': ['Florida'],
+	'G': ['Georgia', 'Guam'],
+	'H': ['Hawaii'],
+	'I': ['Iowa', 'Idaho', 'Illinois', 'Indiana'],
+	'J': [],
+	'K': ['Kansas', 'Kentucky'],
+	'L': ['Louisiana'],
+	'M': ['Massachusetts', 'Maryland', 'Maine', 'Michigan', 'Minnesota', 'Missouri', 'Northern Mariana Islands', 'Mississippi', 'Montana'],
+	'N': ['National', 'North Carolina', 'North Dakota', 'Nebraska', 'New Hampshire', 'New Jersey', 'New Mexico', 'Nevada', 'New York'],
+	'O': ['Ohio', 'Oklahoma', 'Oregon'],
+	'P': ['Pennsylvania', 'Puerto Rico'],
+	'Q': [],
+	'R': ['Rhode Island'],
+	'S': ['South Carolina', 'South Dakota'],
+	'T': ['Tennessee', 'Texas'],
+	'U': ['Utah'],
+	'V': ['Virginia', 'Virgin Islands', 'Vermont'],
+	'W': ['Washington', 'Wisconsin', 'West Virginia', 'Wyoming'],
+	'X': [],
+	'Y': [],
+	'Z': []
+}
+
 states = {
         'AK': 'Alaska',
         'AL': 'Alabama',
@@ -120,7 +150,11 @@ def about():
 #states page
 @app.route("/states")
 def states_list():
-	return render_template('states.html', title='Search By State', states=state_dict, api_params=api_params)
+	return render_template('states.html', title='Search By State', states=state_dict, api_params=api_params, alphabet_to_state=alphabet_to_state)
+
+@app.route("/states/<letter>")
+def states_show(letter):
+	return render_template('states_show.html', title=letter, states=state_dict, api_params=api_params, alphabet_to_state=alphabet_to_state, letter=letter)
 
 #parks page TBD TESTING
 #state = "CA"#request.args.get('type')

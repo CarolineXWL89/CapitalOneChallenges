@@ -1,0 +1,10 @@
+{% extends "states.html" %}
+{% block states_shown %}
+<div>
+	{% for state in alphabet_to_state.get(letter) %}
+	<div class="state-list">
+		<a class="muted-text ml-2" href="{{ url_for('parks', state_abb=states.get(state), state_full=state) }}">{{ state }}</a>
+	</div>
+	{% endfor %}
+</div>
+{% endblock states_shown %}

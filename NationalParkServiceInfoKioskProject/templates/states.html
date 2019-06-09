@@ -1,17 +1,26 @@
 {% extends "general_layout.html" %}
 {% block content %}
-	<h1>
-		Search By State
-	</h1>
-
-	<p>
-		FILLED W/ LIST OF STATES ALPHABETISED W/ LINKS
-		Each state links to page w/ list of parks IN that state
-
-		{% for state in states.keys() %}
-			<div class="state-list">
-				<a class="muted-text ml-2" href="{{ url_for('parks', state_abb=states.get(state), state_full=state) }}">{{ state }}</a>
-			</div>
-		{% endfor %}
-	</p>
+<div>
+	<div class="pl-4 pr-4 pu-4">
+		<h1>
+			Search By State
+		</h1>
+	</div>
+	<div class="pl-4 pb-4 pr-4 pu-4">
+		<div class="text-center">
+			{% for letter in alphabet_to_state.keys() %}
+			{% if alphabet_to_state.get(letter) != [] %}
+			<small>
+				<a href="{{ url_for('states_show', letter=letter) }}">{{ letter }}</a>
+			</small>
+			{% else %}
+			<small>
+				{{ letter }}
+			</small>
+			{% endif %}
+			{% endfor %}
+		</div>
+		{% block states_shown %} {% endblock %}
+	</div>
+</div>
 {% endblock content%}
