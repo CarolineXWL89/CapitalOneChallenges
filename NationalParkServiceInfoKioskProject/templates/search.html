@@ -105,6 +105,46 @@
 					{% endif %}
 				</div>
 
+				<div class="form-group">
+					{{ form.fields.label(class="form-control-label") }}
+
+					<!-- checking for invalid inputs -->
+					{% if form.fields.errors %}
+					{{ form.fields(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.fields.errors %}
+						<span>
+							{{ error }}
+						</span>
+						{% endfor %}
+					</div>
+
+					{% else %}
+					{{ form.fields(class="form-control form-control-lg") }}
+
+					{% endif %}
+				</div>
+
+				<div class="form-group">
+					{{ form.sort.label(class="form-control-label") }}
+
+					<!-- checking for invalid inputs -->
+					{% if form.sort.errors %}
+					{{ form.sort(class="form-control form-control-lg is-invalid") }}
+					<div class="invalid-feedback">
+						{% for error in form.sort.errors %}
+						<span>
+							{{ error }}
+						</span>
+						{% endfor %}
+					</div>
+
+					{% else %}
+					{{ form.sort(class="form-control form-control-lg") }}
+
+					{% endif %}
+				</div>
+
 			</fieldset>
 			<div class="formgroup">
 				{{ form.submit(class="btn btn-outline-info") }}

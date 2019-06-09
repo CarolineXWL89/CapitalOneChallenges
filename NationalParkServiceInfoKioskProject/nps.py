@@ -17,6 +17,58 @@ state_code_list = ['AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA', '
 state_dict = {
 	'Alabama': 'AL', 'Alaska': 'AK', 'Arizona':'AZ', 'Arkansas': 'AR', 'California': 'CA', 'Colorado': 'CO', 'Connecticut': 'CT', 'Delaware': 'DE','Florida': 'FL', 'Georgia': 'GA', 'Hawaii': 'HI','Idaho': 'ID', 'Illinois': 'IL', 'Indiana': 'IN', 'Iowa': 'IA','Kansas': 'KS', 'Kentucky': 'KY', 'Louisiana': 'LA', 'Maine': 'ME', 'Maryland': 'MD', 'Massachusetts': 'MA', 'Michigan': 'MI', 'Minnesota': 'MN', 'Mississippi': 'MP', 'Missouri': 'MO', 'Montana': 'MT', 'Nebraska': 'NE', 'Nevada': 'NV', 'New Hampshire': 'NH', 'New Jersey':'NJ', 'New Mexico': 'NM', 'New York': 'NY', 'North Carolina': 'NC', 'North Dakota': 'ND', 'Ohio': 'OH', 'Oklahoma': 'OK', 'Oregon': 'OR','Pennsylvania': 'PA', 'Rhode Island': 'RI', 'South Carolina': 'SC', 'South Dakota': 'SD', 'Tennessee': 'TN', 'Texas': 'TX', 'Utah': 'UT','Vermont': 'VT', 'Virginia': 'VA', 'Washington': 'WA', 'West Virginia': 'WV', 'Wisconsin': 'WI', 'Wyoming': 'WY'
 }
+states = {
+        'AK': 'Alaska',
+        'AL': 'Alabama',
+        'AR': 'Arkansas',
+        'AZ': 'Arizona',
+        'CA': 'California',
+        'CO': 'Colorado',
+        'CT': 'Connecticut',
+        'DE': 'Delaware',
+        'FL': 'Florida',
+        'GA': 'Georgia',
+        'HI': 'Hawaii',
+        'IA': 'Iowa',
+        'ID': 'Idaho',
+        'IL': 'Illinois',
+        'IN': 'Indiana',
+        'KS': 'Kansas',
+        'KY': 'Kentucky',
+        'LA': 'Louisiana',
+        'MA': 'Massachusetts',
+        'MD': 'Maryland',
+        'ME': 'Maine',
+        'MI': 'Michigan',
+        'MN': 'Minnesota',
+        'MO': 'Missouri',
+        'MS': 'Mississippi',
+        'MT': 'Montana',
+        'NC': 'North Carolina',
+        'ND': 'North Dakota',
+        'NE': 'Nebraska',
+        'NH': 'New Hampshire',
+        'NJ': 'New Jersey',
+        'NM': 'New Mexico',
+        'NV': 'Nevada',
+        'NY': 'New York',
+        'OH': 'Ohio',
+        'OK': 'Oklahoma',
+        'OR': 'Oregon',
+        'PA': 'Pennsylvania',
+        'RI': 'Rhode Island',
+        'SC': 'South Carolina',
+        'SD': 'South Dakota',
+        'TN': 'Tennessee',
+        'TX': 'Texas',
+        'UT': 'Utah',
+        'VA': 'Virginia',
+        'VT': 'Vermont',
+        'WA': 'Washington',
+        'WI': 'Wisconsin',
+        'WV': 'West Virginia',
+        'WY': 'Wyoming'
+}
 
 
 api_params = {
@@ -296,15 +348,16 @@ def search():
 
 	if form.validate_on_submit():
 		call_tag = api_params.get('call_tags').get(7) #defaults park right now
-		api_call = generate_api_call(call_tag) # w/o anything else
+		api_request = generate_api_call(call_tag) # w/o anything else
 		#w/o considering it might be a list
 		park_code = ""
 		state_code = ""
 		start = 0
 		q = ""
-		# fields = []
-		# sort = []
+		fields = []
+		sort = []
 		limit = 50
+		#checks if our form is receiving any data
 		if form.parkCode.data != None:
 			park_code = form.parkCode.data
 		if form.stateCode.data != None:
@@ -315,12 +368,26 @@ def search():
 			q = form.q.data
 		if form.limit.data != None:
 			limit = form.limit.data
-			
-		api_call = generate_api_call(call_tag, park_code=park_code, state_code=state_code, start=start, q=q, limit=limit)
-		print(api_call) 
+		if form.fields.data != None:
+			field_string = form.fields.data
+			fields = field_string.split(",")
+		if form.sort.data != None:
+			sort_string = form.sort.data
+			sort = sort_string.split(",")
+		#official api call
+		api_request = generate_api_call(call_tag, park_code=park_code, state_code=state_code, start=start, q=q, fields=fields, sort=sort, limit=limit)
+		#checks if api call is right
+		print(api_request) 
+		#makes call + get data
+		r = requests.get(api_request)
+		num = json.loads(r.text)['total']
+		data = json.loads(r.text)['data']
+		#currently only searches for parks
+		state_abb = ""
+		state_full = ""
+		return render_template('parks.html', title='Parks', num_parks=num, list_of_parks=data, state_abb=state_abb, state_full=state_full, states=states)
 
 	return render_template('search.html', title="dummy search", form=form)
-
 
 #run w/o command line instructions
 #__name__ is __main__ if run w/ python.script directly; i.e. will enter conditional
