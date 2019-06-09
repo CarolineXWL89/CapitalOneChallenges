@@ -45,10 +45,16 @@
 			</div>
 			<div class="col-lg-3">
 				<!--Google map-->
+				{% if map_query != "" %}
 				<div id="map-container-google-2" class="z-depth-1-half map-container">
 					<iframe src="https://maps.google.com/maps?q={{ lat }},{{ lng }}&hl=es;z=14&amp;output=embed" height="450" width="600" frameborder="0"
 					style="border:0" allowfullscreen></iframe>
 				</div>
+				{% else %}
+				<div>
+					No map information available
+				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>

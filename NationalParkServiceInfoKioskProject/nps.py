@@ -294,14 +294,15 @@ def show_campground(state_abb, state_full, park_name, park_code, campground_name
 	for i in range(len(list_of_campgrounds)):
 		if list_of_campgrounds[i].get('name') == campground_name:
 			campground = list_of_campgrounds[i]
-			latLong = re.findall('\-?\d+', campground.get('latLong'))
-			print("latLong: " + ",".join(latLong))
-			lat = str(Decimal(str(latLong[0]) + "." + str(latLong[1])))
-			print("lat: " + str(lat))
-			lng = str(Decimal(str(latLong[2]) + "." + str(latLong[3])))
-			print("long: " + str(lng))
-			map_query = "https://www.google.com/maps/search/?api=1&query=" + str(lat) + "," + str(lng)
-			print(map_query)
+			if campground.get('latLong') != "":
+				latLong = re.findall('\-?\d+', campground.get('latLong'))
+				print("latLong: " + ",".join(latLong))
+				lat = str(Decimal(str(latLong[0]) + "." + str(latLong[1])))
+				print("lat: " + str(lat))
+				lng = str(Decimal(str(latLong[2]) + "." + str(latLong[3])))
+				print("long: " + str(lng))
+				map_query = "https://www.google.com/maps/search/?api=1&query=" + str(lat) + "," + str(lng)
+				print(map_query)
 			break
 	if campground == None:
 		print("Campground not found")
