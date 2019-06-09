@@ -20,6 +20,8 @@
 	{% else %}
 		<title>NPS - {{ title }}</title>
 	{% endif %}
+
+	{% block park_header %} {% endblock %}
 </head>
 <body>
 	<!--nav bar stuff TO BE EDITED -->
@@ -39,6 +41,7 @@
 
 	        		<!-- Navbar Right Side -->
 	        		<div class="navbar-nav">
+	        			<a class="nav-item nav-link" href="{{ url_for('search') }}">Search Form</a>
 	          			<a class="nav-item nav-link" href="{{ url_for('states_list') }}">Search by State</a>
 						<a class="nav-item nav-link" href="{{ url_for('news') }}">News</a>
 	      			</div>
