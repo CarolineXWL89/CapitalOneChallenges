@@ -38,7 +38,6 @@
 					<div class="navbar-nav mr-auto">
 						<a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
 						<a class="nav-item nav-link" href="{{ url_for('about') }}">About</a>
-						<a class="nav-item nav-link" href="{{ url_for('chosen_park', state_abb='STATE_ABB', state_full='STATE_FULL', park_name='PARK_NAME', park_code='TEMP_CODE') }}">TEMP PARK LAYOUT</a>
 					</div>
 
 					<!-- Navbar Right Side -->
@@ -82,7 +81,7 @@
 			<div class="col-sm-4 pb-5">
 				<div class="pb-4 font-weight-bold text-capitalize lead text-center">COL 1 - CAMPGROUNDS DATA LIST</div>
 				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#campsite-collapse">
-					Show All Campsites
+					Show All Campgrounds
 				</button>
 				<div id="campsite-collapse" class="collapse">
 					{% if num_camps == 0 %}
@@ -92,7 +91,7 @@
 					<div class="pb-3">
 						<a class="text-primary" href="{{ url_for('show_campground', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), campground_name=campground.get('name')) }}">{{ campground.get('name') }}</a>
 						<div class="pb-2">
-							{{ campground.get('campsites').get('totalsites') }} total sites available
+							{{ campground.get('campsites').get('totalsites') }} total sites
 						</div>
 					</div>
 					{% endfor %}

@@ -3,8 +3,11 @@ import requests
 import json
 import re
 from decimal import Decimal
+from forms import SearchForm
 
 app = Flask(__name__)
+
+app.config['SECRET_KEY'] = '281687ed461f279298f37da9348a93e2'
 
 #might turn into dictionary w/ State vs State code
 state_list = ['Alabama', 'Alaska', 'Arizona', 'Arkansas', 'California', 'Colorado', 'Connecticut', 'Delaware', 'Florida', 'Georgia', 'Hawaii','Idaho', 'Illinois', 'Indiana', 'Iowa', 'Kansas', 'Kentucky', 'Louisiana', 'Maine', 'Maryland', 'Massachusetts', 'Michigan', 'Minnesota', 'Mississippi', 'Missouri', 'Montana', 'Nebraska', 'Nevada', 'New Hampshire', 'New Jersey', 'New Mexico', 'New York', 'North Carolina', 'North Dakota', 'Ohio', 'Oklahoma', 'Oregon', 'Pennsylvania', 'Rhode Island', 'South Carolina', 'South Dakota', 'Tennessee', 'Texas', 'Utah', 'Vermont', 'Virginia', 'Washington', 'West Virginia', 'Wisconsin', 'Wyoming']
@@ -146,7 +149,7 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 
 	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons, num_people=num_people, people=list_of_people, num_places=num_places, places=list_of_places)
 
-def generate_api_call(call_tag, park_code, state_code, start=0, q="", fields=[], sort=[], limit=50):
+def generate_api_call(call_tag, park_code="", state_code="", start=0, q="", fields=[], sort=[], limit=50):
 	api_call = api_params.get('api_base_call') + call_tag + '?'
 	if park_code:
 		api_call += api_params.get('params').get(1) + park_code + '&'
@@ -286,6 +289,38 @@ def lesson_by_park(state_abb, state_full, park_name, park_code, lesson_id):
 def display_all_lessons(state_abb, state_full, park_name, park_code):
 	#TODO
 	return render_template('lessons.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, lessons=lessons)
+
+@app.route("/search", methods=['GET', 'POST'])
+def search():
+	form = SearchForm()
+
+	if form.validate_on_submit():
+		call_tag = api_params.get('call_tags').get(7) #defaults park right now
+		api_call = generate_api_call(call_tag) # w/o anything else
+		#w/o considering it might be a list
+		park_code = ""
+		state_code = ""
+		start = 0
+		q = ""
+		# fields = []
+		# sort = []
+		limit = 50
+		if form.parkCode.data != None:
+			park_code = form.parkCode.data
+		if form.stateCode.data != None:
+			state_code = form.stateCode.data
+		if form.start.data != None:
+			start = form.start.data
+		if form.q.data != None:
+			q = form.q.data
+		if form.limit.data != None:
+			limit = form.limit.data
+			
+		api_call = generate_api_call(call_tag, park_code=park_code, state_code=state_code, start=start, q=q, limit=limit)
+		print(api_call) 
+
+	return render_template('search.html', title="dummy search", form=form)
+
 
 #run w/o command line instructions
 #__name__ is __main__ if run w/ python.script directly; i.e. will enter conditional
