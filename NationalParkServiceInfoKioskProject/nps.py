@@ -380,7 +380,7 @@ def event_by_park(state_abb, state_full, park_name, park_code, event_id):
 	if event == None:
 		print("Event not found")
 		sys.exit(1)
-	return render_template('single_event.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, event=event)
+	return render_template('single_event.html', title=event.get('title'),state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, event=event)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/events/")
 def display_all_events(state_abb, state_full, park_name, park_code):
