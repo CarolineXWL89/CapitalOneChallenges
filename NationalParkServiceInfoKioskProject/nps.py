@@ -355,19 +355,31 @@ def display_all_news(state_abb, state_full, park_name, park_code):
 	news_all = json.loads(r_news.text)['data']
 	return render_template("news.html", title="News for " + park_name, state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, num_news=num_news, news_all=news_all)
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<article_id>/")
-def article_by_park(state_abb, state_full, park_name, park_code, article_id):
-	#TODO	
-	return render_template('single_article.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, article=article)
+# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<article_id>/")
+# def article_by_park(state_abb, state_full, park_name, park_code, article_id):
+# 	#TODO	
+# 	return render_template('single_article.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, article=article)
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/articles/")
-def display_all_articles(state_abb, state_full, park_name, park_code):
-	#TODO
-	return render_template('articles.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, articles=articles)
+# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/articles/")
+# def display_all_articles(state_abb, state_full, park_name, park_code):
+# 	#TODO
+# 	return render_template('articles.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, articles=articles)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<event_id>/")
 def event_by_park(state_abb, state_full, park_name, park_code, event_id):
 	#TODO
+	call_tag = api_params.get('call_tags').get(4)
+	events_api_request = generate_api_call(call_tag, park_code=park_code, state_code=state_abb)
+	r_events = requests.get(events_api_request)
+	num_news = int(json.loads(r_events.text)['total'])
+	events_all = json.loads(r_events.text)['data']
+	event = None
+	for event_curr in events_all:
+		if event_curr.get('id') == event_id:
+			event = event_curr
+	if event == None:
+		print("Event not found")
+		sys.exit(1)
 	return render_template('single_event.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, event=event)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/events/")
