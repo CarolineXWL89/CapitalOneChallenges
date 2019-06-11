@@ -67,12 +67,11 @@
 				{% else %}
 				{% for article in articles %}
 				<div class="pb-3">
-					<!--<a class="text-primary" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">{{ article.get('title') }}</a>-->
 					<a href="{{ article.get('url') }}">{{ article.get('title') }}</a>
 
-					{% if article.get('listingDescription') != "" %}
+					{% if article.get('listingdescription') != "" %}
 					<div>
-						{{ article.get('listingDescription')[0, 50] }} ... <!--<a class="text-muted" href="{{ url_for('article_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), article_id=article.get('id')) }}">read more</a>-->
+						{{ article.get('listingdescription')[0:50] }} ...
 						<a href="{{ article.get('url') }}">read more</a>
 					</div>
 					{% endif %}
@@ -95,7 +94,7 @@
 					<a class="text-primary" href="{{ url_for('event_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), event_id=event.get('id')) }}">{{ event.get('title') }}</a>
 					{% if event.get('description') != "" %}
 					<div>
-						{{ event.get('description')[0, 20] }} ... <a class="text-muted" href="{{ url_for('event_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), event_id=event.get('id')) }}">read more</a>
+						{{ event.get('description')[3:20] }} ... <a class="text-muted" href="{{ url_for('event_by_park', state_abb=state_abb, state_full=state_full, park_name=park[0].get('fullName'), park_code=park[0].get('parkCode'), event_id=event.get('id')) }}">read more</a>
 					</div>
 					{% endif %}
 				</div>
@@ -142,7 +141,7 @@
 					<a class="text-primary" href="{{ person.get('url') }}">{{ person.get('title') }}</a>
 					{% if person.get('listingdescription') != None %}
 					<div>
-						{{ person.get('listingdescription') }} ... <a class="text-muted" href="{{ person.get('url') }}">read more</a>
+						{{ person.get('listingdescription')[0, 50] }} ... <a class="text-muted" href="{{ person.get('url') }}">read more</a>
 					</div>
 					{% endif %}
 				</div>

@@ -113,24 +113,24 @@
 				<div class="col-lg-2">
 					{{ event.get('times')[0].get('timestart') }} - {{ event.get('times')[0].get('timeend') }}
 				</div>
-				<div>
-					<small>
-						*We will
-						{% if event.get('times')[0].get('sunsetend') == "false" %}
-						not
-						{% endif %}
-						be able to see the sunset.
-					</small>
-				</div>
-				<div>
-					<small>
-						*We will
-						{% if event.get('times')[0].get('sunrisestart') == "false" %}
-						not
-						{% endif %}
-						be able to see the sunrise.
-					</small>
-				</div>
+			</div>
+			<div>
+				<small>
+					*We will
+					{% if event.get('times')[0].get('sunsetend') == "false" %}
+					not
+					{% endif %}
+					be able to see the sunset.
+				</small>
+			</div>
+			<div>
+				<small>
+					*We will
+					{% if event.get('times')[0].get('sunrisestart') == "false" %}
+					not
+					{% endif %}
+					be able to see the sunrise.
+				</small>
 			</div>
 			{% endif %} <!--fix later-->
 		</div>

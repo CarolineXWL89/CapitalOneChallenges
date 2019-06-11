@@ -4,6 +4,7 @@ import json
 import re
 from decimal import Decimal
 from forms import SearchForm
+import sys
 
 app = Flask(__name__)
 
@@ -241,7 +242,7 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 	num_places = json.loads(r_places.text)['total']
 	list_of_places = json.loads(r_places.text)['data']
 
-	return render_template('park_layout.html', state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons, num_people=num_people, people=list_of_people, num_places=num_places, places=list_of_places)
+	return render_template('park_layout.html', title=park_name,state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons, num_people=num_people, people=list_of_people, num_places=num_places, places=list_of_places)
 
 def generate_api_call(call_tag, park_code="", state_code="", start=0, q="", fields=[], sort=[], limit=50):
 	api_call = api_params.get('api_base_call') + call_tag + '?'
@@ -306,7 +307,7 @@ def show_campground(state_abb, state_full, park_name, park_code, campground_name
 			break
 	if campground == None:
 		print("Campground not found")
-		sys.exit(1)
+		sys.exit(0)
 	return render_template('campground_layout.html', title=campground_name,state_abb=state_abb, state_full=state_full, park_name=park_name, campground_name=campground_name, campground=campground, lat=lat, lng=lng, map_query=map_query)
 	#return render_template('campground_layout.html', title='Dummy Campground')
 
@@ -332,7 +333,7 @@ def park_by_state():
 	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
 
 #REMOVE TENTATIVELY
-#news page (general? Might replace later)
+# news page (general? Might replace later)
 @app.route("/news")
 def news():
 
@@ -355,11 +356,6 @@ def display_all_news(state_abb, state_full, park_name, park_code):
 	news_all = json.loads(r_news.text)['data']
 	return render_template("news.html", title="News for " + park_name, state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, num_news=num_news, news_all=news_all)
 
-# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<article_id>/")
-# def article_by_park(state_abb, state_full, park_name, park_code, article_id):
-# 	#TODO	
-# 	return render_template('single_article.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, article=article)
-
 # @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/articles/")
 # def display_all_articles(state_abb, state_full, park_name, park_code):
 # 	#TODO
@@ -367,19 +363,20 @@ def display_all_news(state_abb, state_full, park_name, park_code):
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<event_id>/")
 def event_by_park(state_abb, state_full, park_name, park_code, event_id):
-	#TODO
 	call_tag = api_params.get('call_tags').get(4)
 	events_api_request = generate_api_call(call_tag, park_code=park_code, state_code=state_abb)
 	r_events = requests.get(events_api_request)
-	num_news = int(json.loads(r_events.text)['total'])
+	num_events = int(json.loads(r_events.text)['total'])
 	events_all = json.loads(r_events.text)['data']
 	event = None
 	for event_curr in events_all:
+		print("event id: " + str(event_id))
+		print("curr event id: " + str(event_curr.get('id')))
 		if event_curr.get('id') == event_id:
 			event = event_curr
 	if event == None:
 		print("Event not found")
-		sys.exit(1)
+		sys.exit(0)
 	return render_template('single_event.html', title=event.get('title'),state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, event=event)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/events/")
@@ -390,6 +387,21 @@ def display_all_events(state_abb, state_full, park_name, park_code):
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<lesson_id>")
 def lesson_by_park(state_abb, state_full, park_name, park_code, lesson_id):
 	#TODO
+	call_tag = "lessonplans"#api_params.get('call_tags').get(5)
+	lessons_api_request = generate_api_call(call_tag, park_code=park_code, state_code=state_abb)
+	print(lessons_api_request)
+	r_lessons = requests.get(lessons_api_request)
+	num_lessons = json.loads(r_lessons.text)['total']
+	lessons_all = json.loads(r_lessons.text)['data']
+	lesson = None
+	for lesson_curr in lessons_all:
+		print("lesson id: " + str(lesson_id))
+		print("curr lesson id: " + str(lesson_curr.get('id')))
+		if lesson_curr.get('id') == lesson_id:
+			lesson = lesson_curr
+	if lesson == None:
+		print("lesson not found")
+		sys.exit(0)
 	return render_template('single_lesson.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, lesson=lesson)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/lessons/")
