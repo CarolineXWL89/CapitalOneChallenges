@@ -338,14 +338,7 @@ def park_by_state():
 def news():
 
 	return render_template('general_layout.html', title='News in Parks')
-
-# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<news_title>", methods=['GET', 'POST'])
-# def news_by_park(state_abb, state_full, park_name, park_code, news_id):
-# 	#TODO
-# 	return render_template("single_news.html", state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, new_single=news)
-
-#might delete the single display pages b/c directly linked to page
-#CURRENTLY: keep campgrounds, events erroring, lessons not set + erroring, 
+ 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):
 	#TODO
@@ -355,11 +348,6 @@ def display_all_news(state_abb, state_full, park_name, park_code):
 	num_news = int(json.loads(r_news.text)['total'])
 	news_all = json.loads(r_news.text)['data']
 	return render_template("news.html", title="News for " + park_name, state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, num_news=num_news, news_all=news_all)
-
-# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/articles/")
-# def display_all_articles(state_abb, state_full, park_name, park_code):
-# 	#TODO
-# 	return render_template('articles.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, articles=articles)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<event_id>/")
 def event_by_park(state_abb, state_full, park_name, park_code, event_id):
