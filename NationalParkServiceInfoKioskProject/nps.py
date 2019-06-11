@@ -384,10 +384,10 @@ def display_all_events(state_abb, state_full, park_name, park_code):
 	#TODO
 	return render_template('events.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, events=events)
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/<lesson_id>")
-def lesson_by_park(state_abb, state_full, park_name, park_code, lesson_id):
+@app.route("/parks_in_<state_abb>/<park_name>_<park_code>/<lesson_id>")
+def lesson_by_park(state_abb, park_name, park_code, lesson_id):
 	#TODO
-	call_tag = "lessonplans"#api_params.get('call_tags').get(5)
+	call_tag = api_params.get('call_tags').get(5)
 	lessons_api_request = generate_api_call(call_tag, park_code=park_code, state_code=state_abb)
 	print(lessons_api_request)
 	r_lessons = requests.get(lessons_api_request)
@@ -402,7 +402,7 @@ def lesson_by_park(state_abb, state_full, park_name, park_code, lesson_id):
 	if lesson == None:
 		print("lesson not found")
 		sys.exit(0)
-	return render_template('single_lesson.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, lesson=lesson)
+	return render_template('single_lesson.html', title=lesson.get('title'),state_abb=state_abb, park_name=park_name, park_code=park_code, lesson=lesson)
 
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/lessons/")
 def display_all_lessons(state_abb, state_full, park_name, park_code):
