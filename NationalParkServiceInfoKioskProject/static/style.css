@@ -119,3 +119,10 @@ height:100%;
 width:100%;
 position:absolute;
 }
+
+.carousel{
+  position:relative;
+  margin-bottom:20px;
+  line-height:1; 
+  height: 275px;
+}
