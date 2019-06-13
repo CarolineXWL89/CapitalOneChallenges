@@ -318,30 +318,33 @@ def show_campsite(state_abb, state_full, park_name, park_code, campground_name, 
 
 #REMOVE TENTATIVELY
 #park search by state page dud tester
-@app.route("/park_by_state")
-def park_by_state():
-	#sample api call; we want it to be variable; gotten from user input
-	dud_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + 'WY&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
-	print(dud_api_request)
-	r = requests.get(dud_api_request)
-	print("api request from WY dud: " + ": %s" % (r != None))
-	#gets info from api call
-	list_of_parks = json.loads(r.text)['data'] 
-	num_parks = json.loads(r.text)['total']
-	print("number of parks: " + num_parks)
-	#return dud_api_request;
-	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
+# @app.route("/park_by_state")
+# def park_by_state():
+# 	#sample api call; we want it to be variable; gotten from user input
+# 	dud_api_request = api_params.get('api_base_call') + api_params.get('call_tags').get(7) + '?' + api_params.get('params').get(2) + 'WY&' + api_params.get('params').get(3) + '50' + '&api_key=' + api_params.get('api_key')
+# 	print(dud_api_request)
+# 	r = requests.get(dud_api_request)
+# 	print("api request from WY dud: " + ": %s" % (r != None))
+# 	#gets info from api call
+# 	list_of_parks = json.loads(r.text)['data'] 
+# 	num_parks = json.loads(r.text)['total']
+# 	print("number of parks: " + num_parks)
+# 	#return dud_api_request;
+# 	return render_template('parks.html', title='Parks in State Selected', num_parks=num_parks, list_of_parks=list_of_parks, state="WY")
 
 #REMOVE TENTATIVELY
 # news page (general? Might replace later)
 @app.route("/news")
 def news():
-
-	return render_template('general_layout.html', title='News in Parks')
+	call_tag = api_params.get('call_tags').get(6)
+	all_news_api_request = generate_api_call(call_tag, limit=50) #default
+	r_news_all = requests.get(all_news_api_request)
+	total_news = int(json.loads(r_news_all.text)['limit']) # might be too many to process at once?
+	news_data_all = json.loads(r_news_all.text)['data']
+	return render_template('all_news.html', title='News in Parks', num_news=total_news, news_all=news_data_all)
  
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):
-	#TODO
 	call_tag = api_params.get('call_tags').get(6)
 	news_api_request = generate_api_call(call_tag, park_code, state_abb)
 	r_news = requests.get(news_api_request)
@@ -367,14 +370,13 @@ def event_by_park(state_abb, state_full, park_name, park_code, event_id):
 		sys.exit(0)
 	return render_template('single_event.html', title=event.get('title'),state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, event=event)
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/events/")
-def display_all_events(state_abb, state_full, park_name, park_code):
-	#TODO
-	return render_template('events.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, events=events)
+# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/events/")
+# def display_all_events(state_abb, state_full, park_name, park_code):
+# 	#TODO
+# 	return render_template('events.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, events=events)
 
 @app.route("/parks_in_<state_abb>/<park_name>_<park_code>/<lesson_id>")
 def lesson_by_park(state_abb, park_name, park_code, lesson_id):
-	#TODO
 	call_tag = api_params.get('call_tags').get(5)
 	lessons_api_request = generate_api_call(call_tag, park_code=park_code, state_code=state_abb)
 	print(lessons_api_request)
@@ -392,10 +394,10 @@ def lesson_by_park(state_abb, park_name, park_code, lesson_id):
 		sys.exit(0)
 	return render_template('single_lesson.html', title=lesson.get('title'),state_abb=state_abb, park_name=park_name, park_code=park_code, lesson=lesson)
 
-@app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/lessons/")
-def display_all_lessons(state_abb, state_full, park_name, park_code):
-	#TODO
-	return render_template('lessons.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, lessons=lessons)
+# @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/lessons/")
+# def display_all_lessons(state_abb, state_full, park_name, park_code):
+# 	#TODO
+# 	return render_template('lessons.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, lessons=lessons)
 
 @app.route("/search", methods=['GET', 'POST'])
 def search():
