@@ -334,14 +334,17 @@ def show_campsite(state_abb, state_full, park_name, park_code, campground_name, 
 
 #REMOVE TENTATIVELY
 # news page (general? Might replace later)
-@app.route("/news")
-def news():
+@app.route("/news/<page_num>")
+def news(page_num):
 	call_tag = api_params.get('call_tags').get(6)
-	all_news_api_request = generate_api_call(call_tag, limit=50) #default
+	start_posit = int(page_num) * 50
+	all_news_api_request = generate_api_call(call_tag, start=start_posit,limit=50) #default
+	print(all_news_api_request)
 	r_news_all = requests.get(all_news_api_request)
-	total_news = int(json.loads(r_news_all.text)['limit']) # might be too many to process at once?
+	limit_news = int(json.loads(r_news_all.text)['limit']) # might be too many to process at once?
 	news_data_all = json.loads(r_news_all.text)['data']
-	return render_template('all_news.html', title='News in Parks', num_news=total_news, news_all=news_data_all)
+	num_news = int(json.loads(r_news_all.text)['total'])
+	return render_template('all_news.html', title='News in Parks', num_news=limit_news, news_all=news_data_all, total_news=num_news)
  
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
 def display_all_news(state_abb, state_full, park_name, park_code):

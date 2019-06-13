@@ -10,7 +10,7 @@
 				<legend class="border-bottom mb-4">Search for Parks</legend>
 				<!-- create form groups -->
 				<div class="form-group">
-					{{ form.parkCode.label(class="form-control-label") }}
+					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.parkCode.description }}">{{ form.parkCode.label(class="form-control-label") }}</a>
 
 					<!-- checking for invalid inputs -->
 					{% if form.parkCode.errors %}
@@ -29,7 +29,7 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.stateCode.label(class="form-control-label") }}
+					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.stateCode.description }}">{{ form.stateCode.label(class="form-control-label") }}</a>
 
 					<!-- checking for invalid inputs -->
 					{% if form.stateCode.errors %}
@@ -48,8 +48,8 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.limit.label(class="form-control-label") }}
-
+					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.limit.description }}">{{ form.limit.label(class="form-control-label") }}</a>
+				
 					<!-- checking for invalid inputs -->
 					{% if form.limit.errors %}
 					{{ form.limit(class="form-control form-control-lg is-invalid") }}
@@ -67,7 +67,7 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.start.label(class="form-control-label") }}
+					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.start.description }}">{{ form.start.label(class="form-control-label") }}</a>
 
 					<!-- checking for invalid inputs -->
 					{% if form.start.errors %}
@@ -86,7 +86,7 @@
 					{% endif %}
 				</div>
 				<div class="form-group">
-					{{ form.q.label(class="form-control-label") }}
+					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.q.description }}">{{ form.q.label(class="form-control-label") }}</a>
 
 					<!-- checking for invalid inputs -->
 					{% if form.q.errors %}
@@ -106,7 +106,7 @@
 				</div>
 
 				<div class="form-group">
-					{{ form.fields.label(class="form-control-label") }}
+					<a class="text-muted" href="" data-toggle="tooltip" data-placement="right" title="{{ form.q.description }}">{{ form.fields.label(class="form-control-label") }}</a>
 
 					<!-- checking for invalid inputs -->
 					{% if form.fields.errors %}
@@ -126,7 +126,7 @@
 				</div>
 
 				<div class="form-group">
-					{{ form.sort.label(class="form-control-label") }}
+					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.q.description }}">{{ form.sort.label(class="form-control-label") }}</a>
 
 					<!-- checking for invalid inputs -->
 					{% if form.sort.errors %}
