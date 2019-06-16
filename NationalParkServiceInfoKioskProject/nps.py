@@ -153,6 +153,10 @@ def about():
 def states_list():
 	return render_template('states.html', title='Search By State', states=state_dict, api_params=api_params, alphabet_to_state=alphabet_to_state)
 
+# @app.route("/states_map")
+# def states_map():
+# 	return render_template('map.html', title='U.S. Map', states=state_dict, api_params=api_params, alphabet_to_state=alphabet_to_state)
+
 @app.route("/states/<letter>")
 def states_show(letter):
 	return render_template('states_show.html', title=letter, states=state_dict, api_params=api_params, alphabet_to_state=alphabet_to_state, letter=letter)

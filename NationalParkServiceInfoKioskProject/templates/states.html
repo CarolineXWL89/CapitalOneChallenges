@@ -5,7 +5,7 @@
 		<h1>
 			Search By State
 		</h1>
-	</div>
+	</div class="pb-4">
 	<div class="pl-4 pb-4 pr-4 pu-4">
 		<div class="text-center pb-4">
 			{% for letter in alphabet_to_state.keys() %}
@@ -22,7 +22,7 @@
 		</div>
 		{% block states_shown %} {% endblock %}
 
-		<div class="text-center container">
+		<div class="text-center container pb-4">
 			<img src="http://www.virtualhomeschoolgroup.org/vhsgfiles/04_History/100%20World%20Geography/00%20Maps/01%20Western%20Hemisphere/USA/Usa_Political_Map_clip_art_hight.png" alt="United States of America map" width=1000>
 			<button class="btn" style="background-color: transparent; position: absolute; top: 420px; left: 405px">
 				<a class="text-muted" href="{{ url_for('parks', state_full='California', state_abb='CA') }}">CA</a>
@@ -134,6 +134,45 @@
 			</button>
 			<button class="btn" style="background-color: transparent; position: absolute; top: 420px; left: 1050px">
 				<a class="text-muted" href="{{ url_for('parks', state_full='West Virginia', state_abb='WV') }}">WV</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 360px; left: 1095px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Pennsylvania', state_abb='PA') }}">PA</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 310px; left: 1125px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='New York', state_abb='NY') }}">NY</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 420px; left: 1160px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Maryland', state_abb='MD') }}">MD</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 398px; left: 1170px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Delaware', state_abb='DE') }}">DE</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 370px; left: 1175px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='New Jersey', state_abb='NJ') }}">NJ</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 350px; left: 1175px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Connecticut', state_abb='CT') }}">CT</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 340px; left: 1195px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Rhode Island', state_abb='RI') }}">RI</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 310px; left: 1175px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Massachussets', state_abb='MA') }}"><small>MA</small></a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 280px; left: 1157px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Vermont', state_abb='VT') }}"><small>VT</small></a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 280px; left: 1176px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='New Hampshire', state_abb='NH') }}"><small>NH</small></a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 240px; left: 1195px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Maine', state_abb='ME') }}">ME</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 628px; left: 405px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Alaska', state_abb='AK') }}">AK</a>
+			</button>
+			<button class="btn" style="background-color: transparent; position: absolute; top: 660px; left: 630px">
+				<a class="text-muted" href="{{ url_for('parks', state_full='Hawaii', state_abb='HI') }}">HI</a>
 			</button>
 		</div>
 	</div>
