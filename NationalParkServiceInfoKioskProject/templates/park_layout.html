@@ -104,7 +104,7 @@
 		</div>
 	</div>
 
-	<div class="row">
+	<div class="row pb-4">
 		<div class="col-sm-4 ">
 			<div class="pb-4 font-weight-bold text-capitalize lead">LIST OF LESSONS</div>
 			<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#lessons-collapse">
@@ -169,6 +169,49 @@
 				</div>
 				{% endfor %}
 				{% endif %}
+			</div>
+		</div>
+	</div>
+
+	<div>
+		<div class="row">
+			<div class="col-sm-8"></div>
+			<div class="col-lg-4"></div>
+			<div>
+				<div class="pb-4 font-weight-bold text-capitalize lead">VISITOR CENTRES</div>
+				<button type="button" class="btn btn-primary" data-toggle="collapse" data-target="#vcs-collapse">
+					Show All Visitor Centres
+				</button>
+				<div id="vcs-collapse" class="collapse">
+					{% if num_vc == 0 %}
+					<div class="pb-3 text-center content-section">There are no visitor centres associated with {{ park[0].get('fullName') }} National Park</div>
+					{% else %}
+					{% for i in range(50) %}
+					<div class="pb-3 col-lg-6">
+						<a class="text-primary" href="{{ vcs[i].get('url') }}">{{ vcs[i].get('name') }}</a>
+						{% if vcs[i].get('description') != "" %}
+						<div>
+							{{ vcs[i].get('description') }}<a class="text-muted" href="{{ vcs[i].get('url') }}">read more</a>
+						</div>
+						{% else %}
+						No description available
+						{% endif %}
+
+						<!--Google map-->
+						{% if vc_map_queries[i] != None %}
+						<div id="map-container-google-2" class="z-depth-1-half map-container">
+							<iframe src="https://maps.google.com/maps?q={{ vc_map_queries[i].get('lat') }},{{ vc_map_queries[i].get('lng') }}&hl=es;z=14&amp;output=embed" height="450" width="600" frameborder="0"
+							style="border:0" allowfullscreen></iframe>
+						</div>
+						{% else %}
+						<div class="col-lg-4">
+							No map information available
+						</div>
+						{% endif %}
+					</div>							
+					{% endfor %}
+					{% endif %}
+				</div>
 			</div>
 		</div>
 	</div>

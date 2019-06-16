@@ -20,7 +20,7 @@
 	<div class="row pb-4">
 		{% for state in alphabet_to_state.get(letter) %}
 		<div class="state-list col-lg-4 pb-4">
-			<a class="muted-text ml-2 display-4 smaller" href="{{ url_for('parks', state_abb=states.get(state), state_full=state) }}">{{ state }}</a>
+			<a class="muted-text ml-2 lead font-weight-bold" href="{{ url_for('parks', state_abb=states.get(state), state_full=state) }}">{{ state }}</a>
 		</div>
 		{% endfor %}
 	</div>

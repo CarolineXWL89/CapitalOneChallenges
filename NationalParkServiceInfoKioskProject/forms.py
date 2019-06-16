@@ -28,17 +28,5 @@ class SearchForm(FlaskForm):
 
 	submit = SubmitField('Search')
 
-# class StringListField(Field):
-# 	widget = TextInput()
-
-# 	def _value(self):
-# 		if self.data:
-# 			return u', '.join(self.data)
-# 		else:
-# 			return u''
-
-# 	def process_formdata(self, valuelist):
-# 		if valuelist:
-# 			self.data = [x.strip() for x in valuelist[0].split(',')]
-# 		else:
-# 			self.data = []
+class SearchTypeForm(FlaskForm):
+	selection = IntegerField('Search For', validators=[NumberRange(1, 10)], description="Select your type of search out of the available options.")

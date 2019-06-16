@@ -246,7 +246,35 @@ def chosen_park(state_abb, state_full, park_name, park_code):
 	num_places = json.loads(r_places.text)['total']
 	list_of_places = json.loads(r_places.text)['data']
 
-	return render_template('park_layout.html', title=park_name,state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons, num_people=num_people, people=list_of_people, num_places=num_places, places=list_of_places)
+	#visitorcenters? API request
+	call_tag = api_params.get('call_tags').get(10)
+	vc_api_request = generate_api_call(call_tag)
+	r_vc = requests.get(vc_api_request)
+	num_vc = int(json.loads(r_vc.text)['total'])
+	list_of_vc = json.loads(r_vc.text)['data']
+
+	latLong = []
+	lat = 0
+	lng = 0
+	all_vc_map_queries = []
+	for i in range(len(list_of_vc)):
+		map_query = None
+		vc = list_of_vc[i]
+		if vc.get('latLong') != "":
+			latLong = re.findall('\-?\d+', vc.get('latLong'))
+			print("latLong: " + ",".join(latLong))
+			lat = str(Decimal(str(latLong[0]) + "." + str(latLong[1])))
+			print("lat: " + str(lat))
+			lng = str(Decimal(str(latLong[2]) + "." + str(latLong[3])))
+			print("long: " + str(lng))
+			# map_query = "https://www.google.com/maps/search/?api=1&query=" + str(lat) + "," + str(lng)
+			map_query = {
+				"lat": lat,
+				"lng": lng
+			}
+		all_vc_map_queries.append(map_query)
+
+	return render_template('park_layout.html', title=park_name,state_abb=state_abb, state_full=state_full, park=single_park_list, num_alerts=num_alerts, alerts=list_of_alerts, num_camps=num_campgrounds,campgrounds=list_of_campgrounds, api_params=api_params, num_news=num_news, news=list_of_news, num_articles=num_articles, articles=list_of_articles, num_events=num_events, events=list_of_events, num_lessons=num_lessons, lessons=list_of_lessons, num_people=num_people, people=list_of_people, num_places=num_places, places=list_of_places, num_vc=num_vc, vcs=list_of_vc, vc_map_queries=all_vc_map_queries)
 
 def generate_api_call(call_tag, park_code="", state_code="", start=0, q="", fields=[], sort=[], limit=50):
 	api_call = api_params.get('api_base_call') + call_tag + '?'
