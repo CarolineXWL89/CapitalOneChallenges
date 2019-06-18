@@ -369,13 +369,21 @@ def show_campsite(state_abb, state_full, park_name, park_code, campground_name, 
 @app.route("/news/<page_num>")
 def news(page_num):
 	call_tag = api_params.get('call_tags').get(6)
-	start_posit = int(page_num) * 50
-	all_news_api_request = generate_api_call(call_tag, start=start_posit,limit=50) #default
+	start_posit = (int(page_num ) - 1) * 48
+	all_news_api_request = generate_api_call(call_tag, start=start_posit, limit=48) #default
 	print(all_news_api_request)
 	r_news_all = requests.get(all_news_api_request)
 	limit_news = int(json.loads(r_news_all.text)['limit']) # might be too many to process at once?
 	news_data_all = json.loads(r_news_all.text)['data']
 	num_news = int(json.loads(r_news_all.text)['total'])
+	#check for last page
+	if page_num == (num_news // 48):
+		limit_news = num_news - (i * 3 + (int(page_num) - 1) * 50 + 2)
+	# print("limit_news:" + str(limit_news))
+	# for i in range(limit_news // 3):
+	# 	print(i * 3 + (int(page_num) - 1) * 50)
+	# 	print(i * 3 + (int(page_num) - 1) * 50 + 1)
+	# 	print(i * 3 + (int(page_num) - 1) * 50 + 2)
 	return render_template('all_news.html', title='News in Parks', num_news=limit_news, news_all=news_data_all, total_news=num_news)
  
 @app.route("/parks_in_<state_abb>_<state_full>/<park_name>_<park_code>/news/")
