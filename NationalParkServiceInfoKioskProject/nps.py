@@ -443,11 +443,16 @@ def lesson_by_park(state_abb, park_name, park_code, lesson_id):
 # 	return render_template('lessons.html', state_abb=state_abb, state_full=state_full, park_name=park_name, park_code=park_code, lessons=lessons)
 
 @app.route("/search", methods=['GET', 'POST'])
-def search():
+def search_choose():
+	return render_template('search_selection_type.html', title="Select Search")
+
+@app.route("/search/<type_tag>", methods=['GET', 'POST'])
+def search(type_tag):
 	form = SearchForm()
+	call_tag = api_params.get('call_tags').get(int(type_tag))
+	tag = call_tag.capitalize()
 
 	if form.validate_on_submit():
-		call_tag = api_params.get('call_tags').get(7) #defaults park right now
 		api_request = generate_api_call(call_tag) # w/o anything else
 		#w/o considering it might be a list
 		park_code = ""
@@ -483,12 +488,41 @@ def search():
 		num = json.loads(r.text)['total']
 		print("num: " + str(num))
 		data = json.loads(r.text)['data']
-		#currently only searches for parks
-		state_abb = ""
-		state_full = ""
-		return render_template('parks.html', title='Parks', num_parks=num, list_of_parks=data, state_abb=state_abb, state_full=state_full, states=states)
+		#distinction in searches
+		if type_tag == 1:
+			#TODO alerts
+			return render_template('alerts.html', title='Alerts', park_name="", alerts=data)
+		elif type_tag == 2:
+			#TODO articles
+			return render_template('articles.html', title='Articles')
+		elif type_tag == 3:
+			#TODO campgrounds
+			return render_template('campgrounds.html', title='Campgrounds')
+		elif type_tag == 4:
+			#TODO events
+			return render_template('events.html', title='Events')
+		elif type_tag == 5:
+			#TODO lessonplans
+			return render_template('lessons.html', title='Lesson Plans')
+		elif type_tag == 6:
+			#TODO newsreleases
+			#do we need an initial page???
+			return render_template('all_news.html', title='News', num_news=limit, total_news=num, news_all=data)
+		elif type_tag == 7:
+			state_abb = ""
+			state_full = ""
+			return render_template('parks.html', title='Parks', num_parks=num, list_of_parks=data, state_abb=state_abb, state_full=state_full, states=states)
+		elif type_tag == 8:
+			#TODO people
+			return render_template('people.html', title='People')
+		elif type_tag == 9:
+			#TODO places
+			return render_template('places.html', title='Places')
+		else:
+			#TODO visitorcenters
+			return render_template('vcs.html', title='Visitor Centres')
 
-	return render_template('search.html', title="dummy search", form=form)
+	return render_template('search.html', title="Search Form", form=form, search_type=tag)
 
 #run w/o command line instructions
 #__name__ is __main__ if run w/ python.script directly; i.e. will enter conditional

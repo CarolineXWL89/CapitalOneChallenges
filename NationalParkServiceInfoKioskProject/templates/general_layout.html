@@ -19,6 +19,32 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
 
+	<!-- loader sample code -->
+	<!-- <style>
+		.loader {
+			border: 16px solid #f3f3f3;
+			border-radius: 50%;
+			border-top: 16px solid #3498db;
+			width: 120px;
+			height: 120px;
+			-webkit-animation: spin 2s linear infinite; /* Safari */
+			animation: spin 2s linear;
+			animation-duration: 2s
+		}
+
+		/* Safari */
+		@-webkit-keyframes spin {
+			0% { -webkit-transform: rotate(0deg); }
+			100% { -webkit-transform: rotate(360deg); }
+		}
+
+		@keyframes spin {
+			0% { transform: rotate(0deg); }
+			100% { transform: rotate(360deg); }
+		}
+	</style> -->
+	<!-- loader end sample -->
+
 	{% if title == 'Home' %}
 	<title>National Park Services Home Page</title>
 	{% else %}
@@ -28,6 +54,14 @@
 	{% block park_header %} {% endblock %}
 </head>
 <body>
+	<!-- Preloader-->
+	<!-- <div class="loader">
+		<div class="cssload-container">
+			<div class="cssload-whirlpool"></div>
+		</div>
+	</div> -->
+	<!-- Preloader end-->
+
 	<!--tooltip enabler-->
 	<script>
 		$(document).ready(function(){
@@ -53,7 +87,7 @@
 
 				<!-- Navbar Right Side -->
 				<div class="navbar-nav">
-					<a class="nav-item nav-link" href="{{ url_for('search') }}">Search Form</a>
+					<a class="nav-item nav-link" href="{{ url_for('search_choose') }}">Search Form</a>
 					<a class="nav-item nav-link" href="{{ url_for('states_list') }}">Search by State</a>
 					<a class="nav-item nav-link" href="{{ url_for('news', page_num=1) }}">News</a>
 				</div>

@@ -7,7 +7,7 @@
 		<form method="POST" action=""> <!-- action="" means that form will reroute to same route when POSTed -->
 			{{ form.hidden_tag() }} <!-- fields we need; hidden tag is adding a CSR token cross-site reforgery token need to be added as protection-->
 			<fieldset class="form-group">
-				<legend class="border-bottom mb-4">Search for Parks</legend>
+				<legend class="border-bottom mb-4">Search for {{ search_type }}</legend>
 				<!-- create form groups -->
 				<div class="form-group">
 					<a class="text-muted" href="#" data-toggle="tooltip" data-placement="right" title="{{ form.parkCode.description }}">{{ form.parkCode.label(class="form-control-label") }}</a>
