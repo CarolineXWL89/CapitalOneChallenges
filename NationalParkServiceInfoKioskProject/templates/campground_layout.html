@@ -3,7 +3,9 @@
 
 <div class="pl-4 pr-4">
 	<h1 class="display-2 font-bold">
+		{% if park_name != "temp" %}
 		{{ park_name }}
+		{% endif %}
 	</h1>
 	<h1>
 		{{ campground_name }}

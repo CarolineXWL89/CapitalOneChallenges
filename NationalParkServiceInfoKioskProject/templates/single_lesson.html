@@ -3,7 +3,9 @@
 <div class="pl-4">
 	<div class="text-center font-weight-bold">
 		<h1 class="pb-4">
+			{% if park_name != "temp" %}
 			{{ park_name }}
+			{% endif %}
 		</h1>
 		<h4 class="display-4 pb-4">
 			{{ lesson.get('title') }}

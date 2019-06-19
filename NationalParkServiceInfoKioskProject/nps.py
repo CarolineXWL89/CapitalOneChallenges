@@ -449,7 +449,8 @@ def search_choose():
 @app.route("/search/<type_tag>", methods=['GET', 'POST'])
 def search(type_tag):
 	form = SearchForm()
-	call_tag = api_params.get('call_tags').get(int(type_tag))
+	type_tag = int(type_tag)
+	call_tag = api_params.get('call_tags').get(type_tag)
 	tag = call_tag.capitalize()
 
 	if form.validate_on_submit():
@@ -485,25 +486,26 @@ def search(type_tag):
 		print(api_request) 
 		#makes call + get data
 		r = requests.get(api_request)
-		num = json.loads(r.text)['total']
+		num = int(json.loads(r.text)['total'])
 		print("num: " + str(num))
 		data = json.loads(r.text)['data']
+		limit = min(num, limit)
 		#distinction in searches
 		if type_tag == 1:
 			#TODO alerts
-			return render_template('alerts.html', title='Alerts', park_name="", alerts=data)
+			return render_template('alerts.html', title='Alerts', park_name="", alerts=data, num_alerts=limit)
 		elif type_tag == 2:
 			#TODO articles
-			return render_template('articles.html', title='Articles')
+			return render_template('articles.html', title='Articles', articles=data, num_articles=limit)
 		elif type_tag == 3:
 			#TODO campgrounds
-			return render_template('campgrounds.html', title='Campgrounds')
+			return render_template('campgrounds.html', title='Campgrounds', campgrounds=data, num_campgrounds=limit, park_code=park_code, abb_to_full=states, state_code=state_code)
 		elif type_tag == 4:
 			#TODO events
-			return render_template('events.html', title='Events')
+			return render_template('events.html', title='Events', events=data, num_events=limit, park_code=park_code, abb_to_full=states, state_code=state_code)
 		elif type_tag == 5:
 			#TODO lessonplans
-			return render_template('lessons.html', title='Lesson Plans')
+			return render_template('lessons.html', title='Lesson Plans', lessons=data, num_lessons=limit, park_code=park_code, abb_to_full=states, state_code=state_code)
 		elif type_tag == 6:
 			#TODO newsreleases
 			#do we need an initial page???
@@ -514,13 +516,33 @@ def search(type_tag):
 			return render_template('parks.html', title='Parks', num_parks=num, list_of_parks=data, state_abb=state_abb, state_full=state_full, states=states)
 		elif type_tag == 8:
 			#TODO people
-			return render_template('people.html', title='People')
+			return render_template('people.html', title='People', people=data, num_people=limit)
 		elif type_tag == 9:
 			#TODO places
-			return render_template('places.html', title='Places')
+			return render_template('places.html', title='Places', places=data, num_places=limit)
 		else:
 			#TODO visitorcenters
-			return render_template('vcs.html', title='Visitor Centres')
+			latLong = []
+			lat = 0
+			lng = 0
+			all_vc_map_queries = []
+			for i in range(limit):
+				map_query = None
+				vc = data[i]
+				if vc.get('latLong') != "":
+					latLong = re.findall('\-?\d+', vc.get('latLong'))
+					print("latLong: " + ",".join(latLong))
+					lat = str(Decimal(str(latLong[0]) + "." + str(latLong[1])))
+					print("lat: " + str(lat))
+					lng = str(Decimal(str(latLong[2]) + "." + str(latLong[3])))
+					print("long: " + str(lng))
+					# map_query = "https://www.google.com/maps/search/?api=1&query=" + str(lat) + "," + str(lng)
+					map_query = {
+						"lat": lat,
+						"lng": lng
+					}
+				all_vc_map_queries.append(map_query)
+			return render_template('vcs.html', title='Visitor Centres', vcs=data, num_vc=limit, vc_map_queries=all_vc_map_queries)
 
 	return render_template('search.html', title="Search Form", form=form, search_type=tag)
 
